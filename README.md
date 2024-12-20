@@ -58,8 +58,8 @@ SNSでの発信、友人、知人への紹介
 ・食べログAPI  
 ・Stimulus Autocomplete（Rails7 ）
 
-## 画面遷移図
+### 画面遷移図
 Figma：https://www.figma.com/design/sTLHwjeooCMRvXztN4eNua/%E7%84%A1%E9%A1%8C?node-id=0-1&p=f&t=zPithJcm4gVB4bON-0
 
-## ER図
+### ER図
 https://drive.google.com/file/d/1SVhQjaUbR0Kj9LgIZRcAGKFQ1ILoB0MV/view?usp=sharing
