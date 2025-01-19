@@ -1,17 +1,20 @@
-<body class="bg-[#F6E8D5] h-screen m-0 p-0">
-  <div class="flex flex-col justify-center items-center h-full">
-
-    <div class="w-full h-full flex justify-center items-center overflow-hidden">
-      <%= image_tag "top_image.jpg", class: "mt-0 mb-0 w-full h-full object-cover" %>
-    </div>
-
-    <div class="text-center space-y-4 mt-4 w-full px-4">
-      <h1 class="text-4xl font-bold">とんこつマップ</h1>
-      <p class="text-lg">~とんこつラーメン店検索アプリ~</p>
-    </div>
+<div class="flex flex-col items-center min-h-screen mt-16 bg-[#F2D1B3]">
+  <div class="w-full h-auto overflow-hidden">
+    <%= image_tag "top_image.jpg", class: "w-full" %>
   </div>
 
-  <%= link_to 'ラーメン店を検索してみる', '#', class: 'block text-center text-2xl font-bold text-blue-500 hover:text-blue-700 transition-colors' %>
-    
-  <%= yield %>
-</body>
+  <div class="text-center w-full px-4 mt-4">
+    <h1 class="text-4xl font-bold">とんこつマップ</h1>
+    <p class="text-lg">~とんこつラーメン店検索アプリ~</p>
+  </div>
+
+  <div class="text-center space-y-2 mt-4">
+    <%= link_to 'ラーメン店を検索してみる', maps_path, class: 'block text-2xl font-bold text-blue-500 hover:text-blue-700 transition-colors' %>
+  
+    <a href="#" class="text-blue-500 hover:text-blue-700 transition-colors">あ</a>
+    <a href="#" class="text-blue-500 hover:text-blue-700 transition-colors">い</a>
+    <a href="#" class="text-blue-500 hover:text-blue-700 transition-colors">う</a>
+    <a href="#" class="text-blue-500 hover:text-blue-700 transition-colors">え</a>
+    <a href="#" class="text-blue-500 hover:text-blue-700 transition-colors">お</a>
+  </div>
+</div>

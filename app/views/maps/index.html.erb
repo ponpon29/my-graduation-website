@@ -1,0 +1,34 @@
+<div class="flex flex-col min-h-screen pt-16">
+  <h1 class="text-center text-4xl font-bold">map</h1> 
+  <div id="map" class="flex-grow"></div>
+</div>
+
+
+<style>
+#map {
+  height: 600px;
+  width: 100%;
+}
+</style>
+
+<script>
+let map;
+
+function initMap() {
+  const geocoder = new google.maps.Geocoder();
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 33.589728, lng: 130.420727},
+    zoom: 12,
+  });
+
+  const marker = new google.maps.Marker({
+    position: {lat: 33.589728, lng: 130.420727},
+    map: map,
+  });
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfjQUz0I8Z916TAr9u4rLO_XuVWL0g8Ao&callback=initMap" async defer></script>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
