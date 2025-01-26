@@ -1,0 +1,20 @@
+<h1>Shops List</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shops.each do |shop| %>
+      <tr>
+        <td><%= shop.name %></td>
+        <td><%= shop.address %></td>
+        <td><%= shop.rating %></td>
+        <td><%= shop.place_id%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

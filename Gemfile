@@ -47,6 +47,11 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem 'dotenv-rails'
+
+  gem 'google_places'
+
+  gem 'geocoder'
+
 end
 
 group :development do
