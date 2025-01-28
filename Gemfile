@@ -64,3 +64,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+  gem 'dotenv-rails'
+
+  gem 'google_places'
+
+  gem 'geocoder'
