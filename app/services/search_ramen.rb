@@ -3,6 +3,7 @@ require 'securerandom'
 require 'set'
 
 api_key = 
+places = GooglePlaces::Client.new(api_key)
 
 places = GooglePlaces::Client.new(api_key)
 
