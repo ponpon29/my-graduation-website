@@ -12,18 +12,37 @@
 
 <script>
 let map;
+const shops = <%= raw @shops.to_json %>;
 
 function initMap() {
-  const geocoder = new google.maps.Geocoder();
-
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 33.589728, lng: 130.420727},
-    zoom: 12,
+    center: {lat: 33.590188, lng: 130.420685},
+    zoom: 17,
   });
 
-  const marker = new google.maps.Marker({
-    position: {lat: 33.589728, lng: 130.420727},
+  const initialMarker = new google.maps.Marker({
+    position: {lat: 33.590188, lng: 130.420685},
     map: map,
+    title: "博多駅"
+  });
+
+  shops.forEach(shop => {
+    const lat = parseFloat(shop.latitude);
+    const lng = parseFloat(shop.longitude);
+
+    const marker = new google.maps.Marker({
+      position: { lat: lat, lng: lng },
+      map: map,
+      title: shop.name
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<div><h3>${shop.name}</h3><p>評価: ${shop.rating || '評価なし'}</p></div>`
+    });
+
+    marker.addListener('click', function() {
+      infoWindow.open(map, marker);
+    });
   });
 }
 </script>
@@ -31,4 +50,3 @@ function initMap() {
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['API_KEY'] %>&callback=initMap" async defer></script>
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-

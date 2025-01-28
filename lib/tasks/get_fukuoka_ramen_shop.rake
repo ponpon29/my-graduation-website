@@ -5,7 +5,7 @@ namespace :search_fukuoka_ramen do
     require 'securerandom'
     require 'set'
 
-    api_key = ''
+    api_key = 
     places = GooglePlaces::Client.new(api_key)
 
     areas = [
@@ -63,7 +63,6 @@ namespace :search_fukuoka_ramen do
               next
             end
 
-            # 店舗情報をデータベースに保存
             begin
               Shop.create!(
                 name: name,
@@ -82,12 +81,10 @@ namespace :search_fukuoka_ramen do
               puts "エラーが発生しました: #{e.message}"
             end
 
-            # visited_place_idsにplace_idを追加
             visited_place_ids.add(place_id)
           end
         end
 
-        # エリアごとに調べたキーワードを記録
         area_searched_keywords[area[:name]].add(query)
       end
     end
