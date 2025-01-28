@@ -11,6 +11,7 @@ class CreateShops < ActiveRecord::Migration[7.2]
       t.decimal :latitude, precision: 10, scale: 7, null: false
       t.decimal :longitude, precision: 10, scale: 7, null: false
       t.string :place_id, null: false
+      t.string :photo_url
 
       t.timestamps
     end
