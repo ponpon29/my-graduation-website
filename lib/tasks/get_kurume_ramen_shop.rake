@@ -1,5 +1,5 @@
 namespace :search_kurume_ramen do
-  desc "Search ramen shops in Kurume, Kasuga, and Chikushino"
+  desc "Search ramen shops in Kurume, Chikugo, Omuta, Yanagawa"
   task :ramen => :environment do
     require 'google_places'
     require 'securerandom'
@@ -9,9 +9,10 @@ namespace :search_kurume_ramen do
     places = GooglePlaces::Client.new(api_key)
 
     areas = [
-      { name: '久留米市', lat: 33.3128, lng: 130.4420 },
-      { name: '春日市', lat: 33.4785, lng: 130.4632 },
-      { name: '筑紫野市', lat: 33.5249, lng: 130.5590 }
+      { name: '久留米市', lat: 33.3184, lng: 130.4967 },
+      { name: '筑後市', lat: 33.2231, lng: 130.4414 },
+      { name: '大牟田市', lat: 33.1313, lng: 130.4045 },
+      { name: '柳川市', lat: 33.2333, lng: 130.3144 }  
     ]
 
     radius = 10000
@@ -57,6 +58,15 @@ namespace :search_kurume_ramen do
             place_id = details.place_id
             opening_hours = details.opening_hours ? details.opening_hours['weekday_text'].join(', ') : '営業時間不明'
 
+            photo_url = nil
+            if details.photos && details.photos.any?
+              photo_reference = details.photos.first.photo_reference
+              photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxheight=400&photoreference=#{photo_reference}&key=#{api_key}"
+              puts "写真URL: #{photo_url}"
+            else
+              puts "写真情報がありません。"
+            end
+
             if visited_place_ids.include?(place_id)
               puts "店舗 '#{name}' はすでに訪れています。スキップします。"
               next
@@ -71,7 +81,8 @@ namespace :search_kurume_ramen do
                 latitude: latitude,
                 longitude: longitude,
                 place_id: place_id,
-                opening_hours: opening_hours
+                opening_hours: opening_hours,
+                photo_url: photo_url
               )
               puts "店名: #{name} を保存しました。"
             rescue ActiveRecord::RecordInvalid => e

@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_23_162247) do
     t.decimal "latitude", precision: 10, scale: 7, null: false
     t.decimal "longitude", precision: 10, scale: 7, null: false
     t.string "place_id", null: false
+    t.string "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

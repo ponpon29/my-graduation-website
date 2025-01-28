@@ -1,5 +1,5 @@
-namespace :search_fukuoka_ramen do
-  desc "Search ramen shops in Fukuoka, Kasuga, Ohno, and Itoshima"
+namespace :search_kitakyusyu_ramen do
+  desc "Search ramen shops in Kitakyushu, Iizuka, Nogata, Munakata"
   task :ramen => :environment do
     require 'google_places'
     require 'securerandom'
@@ -9,10 +9,10 @@ namespace :search_fukuoka_ramen do
     places = GooglePlaces::Client.new(api_key)
 
     areas = [
-      { name: '福岡市', lat: 33.5902, lng: 130.4017 },
-      { name: '春日市', lat: 33.4785, lng: 130.4632 },
-      { name: '大野城市', lat: 33.5608, lng: 130.4854 },
-      { name: '糸島市', lat: 33.5744, lng: 130.0560 }
+      { name: '北九州市', lat: 33.8833, lng: 130.8751 },
+      { name: '飯塚市', lat: 33.5656, lng: 130.7572 },
+      { name: '直方市', lat: 33.7086, lng: 130.7350 },
+      { name: '宗像市', lat: 33.8461, lng: 130.6358 }
     ]
 
     radius = 10000
