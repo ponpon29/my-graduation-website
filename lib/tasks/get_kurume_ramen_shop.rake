@@ -100,3 +100,4 @@ namespace :search_kurume_ramen do
     end
   end
 end
+
