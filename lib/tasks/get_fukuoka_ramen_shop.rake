@@ -5,7 +5,7 @@ namespace :search_fukuoka_ramen do
     require 'securerandom'
     require 'set'
 
-    api_key =
+    api_key = ENV['PLACES_API_KEY']
     places = GooglePlaces::Client.new(api_key)
 
     areas = [
