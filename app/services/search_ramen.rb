@@ -1,8 +1,9 @@
+return true
 require 'google_places'
 require 'securerandom'
 require 'set'
 
-api_key =
+api_key = ENV['PLACES_API_KEY']
 places = GooglePlaces::Client.new(api_key)
 
 areas = [
