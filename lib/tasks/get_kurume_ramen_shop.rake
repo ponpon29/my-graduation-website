@@ -1,6 +1,7 @@
 namespace :search_kurume_ramen do
   desc "Search ramen shops in Kurume, Chikugo, Omuta, Yanagawa"
   task :ramen => :environment do
+    return true
     require 'google_places'
     require 'securerandom'
     require 'set'
