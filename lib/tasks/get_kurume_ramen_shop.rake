@@ -21,8 +21,7 @@ namespace :search_kurume_ramen do
     queries = [
       'とんこつラーメン', '豚骨ラーメン',
       '博多ラーメン', '久留米ラーメン', '長浜ラーメン',
-      '熊本ラーメン'
-    ]
+      '熊本ラーメン', ]
 
     area_searched_keywords = {}
     visited_place_ids = Set.new
