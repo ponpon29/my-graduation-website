@@ -1,11 +1,22 @@
 <div class="flex flex-col min-h-screen pt-16">
-  <h1 class="text-center text-4xl font-bold">map</h1> 
+  <h1 class="text-center text-4xl font-bold">map</h1>
+  
+  <div class="text-center mb-4">
+    <label for="citySelect" class="mr-2">駅を選択</label>
+    <select id="citySelect" class="p-2 border rounded">
+      <option value="hakata">博多駅</option>
+      <option value="tenjin">西鉄福岡駅</option>
+      <option value="kurume">西鉄久留米駅</option>
+      <option value="kitakyushu">小倉駅</option>
+    </select>
+  </div>
+  
   <div id="map" class="flex-grow"></div>
 </div>
 
 <style>
 #map {
-  height: 600px;
+  height: 700px;
   width: 100%;
 }
 </style>
@@ -14,14 +25,21 @@
 let map;
 const shops = <%= raw @shops.to_json %>;
 
+const cities = {
+  hakata: { lat: 33.590188, lng: 130.420685, zoom: 15 },
+  tenjin: { lat: 33.5890399, lng: 130.3995899, zoom: 15 },
+  kurume: { lat: 33.3122409, lng: 130.5210593, zoom: 15 },
+  kitakyushu: { lat: 33.8868979, lng: 130.882544, zoom: 15 }   
+};
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 33.590188, lng: 130.420685},
-    zoom: 17,
+    center: cities.hakata,
+    zoom: 15
   });
 
   const initialMarker = new google.maps.Marker({
-    position: {lat: 33.590188, lng: 130.420685},
+    position: cities.hakata,
     map: map,
     title: "博多駅"
   });
@@ -38,7 +56,7 @@ function initMap() {
 
     const infoWindow = new google.maps.InfoWindow({
       content: `
-        <div class= "flex flex-col justify-end">
+        <div class="flex flex-col justify-end">
           <h3>${shop.name}</h3>
           <p>評価: ${shop.rating || '評価なし'}</p>
           <a href="/shops/${shop.id}" class="inline-block py-1 px-3 bg-blue-500 text-white text-center rounded hover:bg-blue-600 focus:outline-none focus:ring-0 ml-auto">
@@ -51,10 +69,19 @@ function initMap() {
       infoWindow.open(map, marker);
     });
   });
+
+  document.getElementById('citySelect').addEventListener('change', function() {
+    const selectedCity = this.value;
+    const city = cities[selectedCity];
+    if (city) {
+      map.setCenter(city);
+      map.setZoom(city.zoom);
+    }
+  });
 }
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_API_KEY'] %>&callback=initMap" async defer></script>
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-
