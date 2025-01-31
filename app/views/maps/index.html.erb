@@ -38,12 +38,6 @@ function initMap() {
     zoom: 15
   });
 
-  const initialMarker = new google.maps.Marker({
-    position: cities.hakata,
-    map: map,
-    title: "博多駅"
-  });
-
   shops.forEach(shop => {
     const lat = parseFloat(shop.latitude);
     const lng = parseFloat(shop.longitude);
