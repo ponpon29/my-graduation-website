@@ -83,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: myapp_production
-  username: myapp
-  password: <%= ENV["MYAPP_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>  # DATABASE_URLを直接環境変数から取得
+  pool: 5
+  timeout: 5000
