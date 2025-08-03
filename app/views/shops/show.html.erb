@@ -1,6 +1,6 @@
-<div class="flex flex-col min-h-screen pt-16 items-center justify-center">
+<div class="d-flex flex-column min-vh-100 align-items-center justify-content-center" style="padding-top: 4rem;">
   <% if @shop.photo_url.present? %>
-    <%= image_tag @shop.photo_url, alt: "#{@shop.name}の画像", class: "w-1/2 h-auto rounded" %>
+    <%= image_tag @shop.photo_url, alt: "#{@shop.name}の画像", class: "w-50 rounded" %>
   <% end %>
   
   <h1 class="text-center mb-4"><%= @shop.name %></h1>
@@ -8,14 +8,13 @@
   <p class="text-center mb-4">住所: <%= @shop.address %></p>
   <p class="text-center mb-2">電話番号: <%= @shop.phone %></p>
   <p class="text-center mb-4">営業時間:</p>
-    <ul class="list-none p-0 text-center">
-      <% @shop.opening_hours.split(',').each do |hours| %>
-        <li class="mb-2"><%= hours.strip %></li>
-      <% end %>
-    </ul>
+  <ul class="list-unstyled text-center">
+    <% @shop.opening_hours.split(',').each do |hours| %>
+      <li class="mb-2"><%= hours.strip %></li>
+    <% end %>
+  </ul>
 
-  <a href="/maps" class="inline-block py-1 px-3 bg-gray-500 text-white text-center rounded hover:bg-gray-600 focus:outline-none focus:ring-0">
+  <a href="/maps" class="btn btn-secondary">
     戻る
   </a>
 </div>
-

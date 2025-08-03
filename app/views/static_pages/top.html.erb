@@ -1,15 +1,15 @@
-<div class="flex flex-col min-h-screen mt-16 bg-[#F2D1B3]">
-  <div class="w-full h-auto overflow-hidden">
-    <%= image_tag "top_image.jpg", class: "w-full" %>
+<div class="d-flex flex-column min-vh-100" style="margin-top: 4rem; background-color: #F2D1B3;">
+  <div class="w-100 overflow-hidden">
+    <%= image_tag "top_image.jpg", class: "w-100" %>
   </div>
 
-  <div class="text-center w-full px-4 mt-4">
-    <h1 class="text-4xl font-bold text-red-400">とんこつマップ</h1>
-    <p class="text-lg">~とんこつラーメン店検索アプリ~</p>
+  <div class="text-center w-100 px-4 mt-4">
+    <h1 class="display-5 fw-bold text-danger">とんこつマップ</h1>
+    <p class="fs-4">~とんこつラーメン店検索アプリ~</p>
   </div>
 
-  <div class="flex justify-center gap-20 mt-8 mb-16">
-    <%= link_to '新規登録', '#', class: 'block text-2xl font-bold text-green-500 hover:text-green-700 transition-colors' %>
-    <%= link_to '検索してみる', maps_path, class: 'block text-2xl font-bold text-green-500 hover:text-green-700 transition-colors' %>
+  <div class="d-flex justify-content-center gap-5 mt-5 mb-5">
+    <%= link_to '新規登録', new_user_path, class: 'btn btn-outline-success btn-lg fs-3 fw-bold' %>
+    <%= link_to '検索してみる', maps_path, class: 'btn btn-outline-success btn-lg fs-3 fw-bold' %>
   </div>
 </div>

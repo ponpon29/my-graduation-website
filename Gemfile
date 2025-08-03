@@ -52,6 +52,8 @@ group :development, :test do
 
   gem 'geocoder'
 
+  gem 'sorcery', '~> 0.17.0'
+
 end
 
 group :development do
@@ -64,9 +66,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-  gem 'dotenv-rails'
-
-  gem 'google_places'
-
-  gem 'geocoder'
