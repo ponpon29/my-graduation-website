@@ -1,0 +1,37 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center" style="background-color: #F2D1B3; padding-top: 100px; padding-bottom: 2rem;">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 mx-auto">
+        <h2 class="text-center mb-4" style="font-weight: bold;">ユーザー登録</h2>
+        <%= form_with model: @user do |f| %>
+          <div class="mb-3">
+            <%= f.label :last_name, class: "form-label fw-bold" %>
+            <%= f.text_field :last_name, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :first_name, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.text_field :first_name, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :email, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.email_field :email, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :password, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.password_field :password, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :password_confirmation, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.password_field :password_confirmation, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+          </div>
+          <div class="text-center mb-3">
+            <%= f.submit "登録", class: "btn btn-lg fw-bold", style: "background-color: #8B4513; color: white; border: none; border-radius: 25px; padding: 0.5 1rem; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" %>
+          </div>
+        <% end %>
+        <div class='text-center'> 
+          <%= link_to 'ログインページへ', login_path, class: "text-decoration-none", style: "color: #8B4513; font-weight: 500;" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

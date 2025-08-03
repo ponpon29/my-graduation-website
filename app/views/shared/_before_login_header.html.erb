@@ -1,0 +1,14 @@
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
+  <nav class='navbar navbar-light' style="padding: 1rem; background-color: #F5F0E8;">
+    <div class="container-fluid">
+
+      <%= link_to root_path, class: 'navbar-brand' do %>
+        <span class="fs-3 fw-bold text-danger">🍜 とんこつマップ</span>
+      <% end %>
+      
+      <div class="d-flex">
+        <%= link_to 'ログイン', login_path, class: "btn btn-outline-primary" %>
+      </div>
+    </div>
+  </nav>
+</header>

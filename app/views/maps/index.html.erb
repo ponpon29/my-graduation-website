@@ -1,9 +1,9 @@
-<div class="flex flex-col min-h-screen pt-16">
-  <h1 class="text-center text-4xl font-bold">map</h1>
+<div class="d-flex flex-column min-vh-100" style="padding-top: 4rem;">
+  <h1 class="text-center display-4 fw-bold mb-4">map</h1>
   
   <div class="text-center mb-4">
-    <label for="citySelect" class="mr-2">駅を選択</label>
-    <select id="citySelect" class="p-2 border rounded">
+    <label for="citySelect" class="me-2">駅を選択</label>
+    <select id="citySelect" class="form-select d-inline-block w-auto">
       <option value="hakata">博多駅</option>
       <option value="tenjin">西鉄福岡駅</option>
       <option value="kurume">西鉄久留米駅</option>
@@ -11,7 +11,7 @@
     </select>
   </div>
   
-  <div id="map" class="flex-grow"></div>
+  <div id="map" class="flex-grow-1"></div>
 </div>
 
 <style>
@@ -50,12 +50,14 @@ function initMap() {
 
     const infoWindow = new google.maps.InfoWindow({
       content: `
-        <div class="flex flex-col justify-end">
-          <h3>${shop.name}</h3>
-          <p>評価: ${shop.rating || '評価なし'}</p>
-          <a href="/shops/${shop.id}" class="inline-block py-1 px-3 bg-blue-500 text-white text-center rounded hover:bg-blue-600 focus:outline-none focus:ring-0 ml-auto">
-            詳細
-          </a>
+        <div class="d-flex flex-column">
+          <h5 class="mb-2">${shop.name}</h5>
+          <p class="mb-2">評価: ${shop.rating || '評価なし'}</p>
+          <div class="text-end">
+            <a href="/shops/${shop.id}" class="btn btn-primary btn-sm">
+              詳細
+            </a>
+          </div>
         </div>`
     });
 
@@ -73,7 +75,6 @@ function initMap() {
     }
   });
 }
-
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_API_KEY'] %>&callback=initMap" async defer></script>

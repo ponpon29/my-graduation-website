@@ -1,4 +1,29 @@
-<header class="w-full h-16 flex items-center px-4 fixed top-0 left-0 bg-[#F2D1B3] z-10">
-  <h1 class="text-left text-2xl font-bold text-red-400">とんこつマップ</h1>
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
+  <nav class='navbar navbar-expand-lg navbar-light' style="padding: 1rem; background-color: #F5F0E8;">
+    <div class="container-fluid">
+      <%= link_to root_path, class: 'navbar-brand' do %>
+        <span class="fs-3 fw-bold text-danger">🍜 とんこつマップ</span>
+      <% end %>
+      
+      <div class="d-flex">
+        <% if logged_in? %>
+          <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <%= current_user.email if current_user %>
+            </button>
+            <ul class="dropdown-menu">
+              <li><%= link_to 'プロフィール', '#', class: 'dropdown-item' %></li>
+              <li><%= link_to '検索', maps_path, class: 'dropdown-item' %></li>
+              <li><%= link_to 'みんなの投稿', '#', class: 'dropdown-item' %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to 'ログアウト', logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %></li>
+            </ul>
+          </div>
+        <% else %>
+          <%= link_to 'ログイン', login_path, class: "btn btn-outline-primary me-2" %>
+          <%= link_to '新規登録', new_user_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
 </header>
-
