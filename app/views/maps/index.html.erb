@@ -9,6 +9,10 @@
       <option value="kurume">西鉄久留米駅</option>
       <option value="kitakyushu">小倉駅</option>
     </select>
+    
+    <button id="getCurrentLocationBtn" class="btn btn-success ms-2">
+      現在地を表示
+    </button>
   </div>
   
   <div id="map" class="flex-grow-1"></div>
@@ -23,6 +27,9 @@
 
 <script>
 let map;
+let currentLocationMarker;
+let directionsService;
+let directionsRenderer;
 const shops = <%= raw @shops.to_json %>;
 
 const cities = {
@@ -32,12 +39,95 @@ const cities = {
   kitakyushu: { lat: 33.8868979, lng: 130.882544, zoom: 15 }   
 };
 
+// 現在地を取得する関数
+function getCurrentLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('位置情報がサポートされていません'));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      (error) => {
+        reject(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000
+      }
+    );
+  });
+}
+
+// 現在地をマップに表示する関数
+async function showCurrentLocation() {
+  const btn = document.getElementById('getCurrentLocationBtn');
+  btn.textContent = '位置情報取得中...';
+  btn.disabled = true;
+
+  try {
+    const location = await getCurrentLocation();
+    
+    if (currentLocationMarker) {
+      currentLocationMarker.setMap(null);
+    }
+
+    currentLocationMarker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: '現在地',
+      icon: {
+        url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+        scaledSize: new google.maps.Size(40, 40)
+      }
+    });
+
+    map.setCenter(location);
+    map.setZoom(15);
+
+    btn.textContent = '現在地を表示';
+    btn.disabled = false;
+    
+    alert('現在地を取得しました！');
+  } catch (error) {
+    console.error('位置情報の取得に失敗しました:', error);
+    alert('位置情報を取得できませんでした。ブラウザの設定をご確認ください。');
+    btn.textContent = '現在地を表示';
+    btn.disabled = false;
+  }
+}
+
+// 店舗への道案内を開始する関数
+async function navigateToShop(shop) {
+  try {
+    const currentLocation = await getCurrentLocation();
+    const googleMapsUrl = `https://www.google.com/maps/dir/${currentLocation.lat},${currentLocation.lng}/${shop.latitude},${shop.longitude}`;
+    window.open(googleMapsUrl, '_blank');
+  } catch (error) {
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
+    window.open(googleMapsUrl, '_blank');
+  }
+}
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: cities.hakata,
     zoom: 15
   });
 
+  directionsService = new google.maps.DirectionsService();
+
+  // 現在地取得ボタンのイベントリスナー
+  document.getElementById('getCurrentLocationBtn').addEventListener('click', showCurrentLocation);
+
+  // 店舗マーカーの作成（ここが重要！）
   shops.forEach(shop => {
     const lat = parseFloat(shop.latitude);
     const lng = parseFloat(shop.longitude);
@@ -54,9 +144,13 @@ function initMap() {
           <h5 class="mb-2">${shop.name}</h5>
           <p class="mb-2">評価: ${shop.rating || '評価なし'}</p>
           <div class="text-end">
-            <a href="/shops/${shop.id}" class="btn btn-primary btn-sm">
+            <a href="/shops/${shop.id}" class="btn btn-primary btn-sm me-2">
               詳細
             </a>
+            <button onclick="navigateToShop({latitude: '${shop.latitude}', longitude: '${shop.longitude}', name: '${shop.name}'})" 
+                    class="btn btn-success btn-sm">
+              ここに行く
+            </button>
           </div>
         </div>`
     });
@@ -66,6 +160,7 @@ function initMap() {
     });
   });
 
+  // 駅選択のイベントリスナー
   document.getElementById('citySelect').addEventListener('change', function() {
     const selectedCity = this.value;
     const city = cities[selectedCity];
