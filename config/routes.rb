@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :shops, only: [:index, :show]
   resources :maps, only: [:index]
   resources :users, only: %i[new create]
+  resources :boards, only: %i[index]
 
   get 'shops/index', to: 'shops#index'
   get 'login', to: 'user_sessions#new'
