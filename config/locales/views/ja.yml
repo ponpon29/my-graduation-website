@@ -1,0 +1,40 @@
+ja:
+  helpers:
+    submit:
+      create: 登録
+      submit: 保存
+      update: 更新
+    label:
+      email: メールアドレス
+      password: パスワード
+  user_sessions:
+    new:
+      title: ログイン
+      login: ログイン
+      to_register_page: 登録ページへ
+      password_forget: パスワードをお忘れの方はこちら
+  users:
+    new:
+      title: ユーザー登録
+      create: 登録
+      to_login_page: ログインページへ
+  static_pages:
+    top:
+      title: とんこつマップ
+      subtitle: ~とんこつラーメン店検索アプリ~
+      create: 新規登録
+      search: 検索
+  shared:
+    before_login_header:
+      title: とんこつマップ
+      login: ログイン
+    header:
+      title: とんこつマップ
+      profile: マイページ
+      search: 検索
+      post: みんなの投稿
+      logout: ログアウト
+      login: ログイン
+      create: 新規投稿
+
+
