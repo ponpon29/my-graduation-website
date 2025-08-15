@@ -1,4 +1,5 @@
-@import 'bootstrap';
+@import "bootstrap/scss/bootstrap";
+
 .btn-ramen-hover {
   @extend .btn;
   background-color: white;
