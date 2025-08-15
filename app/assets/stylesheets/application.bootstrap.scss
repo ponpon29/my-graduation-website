@@ -1,0 +1,18 @@
+@import 'bootstrap';
+.btn-ramen-hover {
+  @extend .btn;
+  background-color: white;
+  color: #8B4513;
+  border: 2px solid #8B4513;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1.2rem;  
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #8B4513;
+    color: white;       
+    transform: translateY(-2px);     
+    box-shadow: 0 6px 12px rgba(139, 69, 19, 0.3);
+  }
+}

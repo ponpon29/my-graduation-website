@@ -1,22 +1,27 @@
-<div class="d-flex flex-column min-vh-100 align-items-center justify-content-center" style="padding-top: 4rem;">
-  <% if @shop.photo_url.present? %>
-    <%= image_tag @shop.photo_url, alt: "#{@shop.name}の画像", class: "w-50 rounded" %>
-  <% end %>
-  
-  <h1 class="text-center mb-4"><%= @shop.name %></h1>
-  <p class="text-center mb-2">評価: <%= @shop.rating || '評価なし' %></p>
-  <p class="text-center mb-4">住所: <%= @shop.address %></p>
-  <p class="text-center mb-2">電話番号: <%= @shop.phone %></p>
-  <p class="text-center mb-4">営業時間:</p>
-  <ul class="list-unstyled text-center">
-    <% @shop.opening_hours.split(',').each do |hours| %>
-      <li class="mb-2"><%= hours.strip %></li>
+<div class="container">
+  <div class="text-center">
+    <% if @shop.photo_url.present? %>
+      <%= image_tag @shop.photo_url, alt: "#{@shop.name}の画像", class: "img-fluid rounded mb-3", style: "max-width: 60%; height: auto;" %>
     <% end %>
-  </ul>
+    
+    <h3 class="mb-3"><%= @shop.name %></h3>
+    
+    <p class="mb-2">⭐ <%= @shop.rating || '評価なし' %></p>
+    <p class="mb-3">📍 <%= @shop.address %></p>
+    <p class="mb-2">📞 <%= @shop.phone %></p>
+    
+    <div class="mb-4">
+      <h5 class="mb-2">🕒 営業時間</h5>
+      <ul class="list-unstyled">
+        <% @shop.opening_hours.split(',').each do |hours| %>
+          <li class="mb-1"><%= hours.strip %></li>
+        <% end %>
+      </ul>
+    </div>
 
-  <%= link_to t('header.create_board'), new_board_path %>
-
-  <a href="/maps" class="btn btn-secondary">
-    戻る
-  </a>
+    <div class="d-flex justify-content-center gap-3 mb-3">
+      <%= link_to t('header.create_board'), new_board_path, class: "btn btn-primary" %>
+      <%= link_to "戻る", maps_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
 </div>
