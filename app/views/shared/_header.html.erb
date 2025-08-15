@@ -7,17 +7,22 @@
       
       <div class="d-flex">
         <% if logged_in? %>
-          <div class="dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              <%= current_user.email if current_user %>
+          <div class="position-relative">
+            <button class="btn btn-outline-primary" 
+                    type="button" 
+                    id="ramenUserBtn"
+                    onclick="toggleRamenMenu()">
+              <%= current_user.email if current_user %> ▼
             </button>
-            <ul class="dropdown-menu">
-              <li><%= link_to t('.profile'), '#', class: 'dropdown-item' %></li>
-              <li><%= link_to t('.search'), maps_path, class: 'dropdown-item' %></li>
-              <li><%= link_to t('.post'), boards_path, class: 'dropdown-item' %></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><%= link_to t('.logout'), logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %></li>
-            </ul>
+            <div id="ramenUserMenu" 
+                 class="dropdown-menu position-absolute" 
+                 style="display: none; top: 100%; right: 0; z-index: 1050;">
+              <%= link_to t('.profile'), '#', class: 'dropdown-item' %>
+              <%= link_to t('.search'), maps_path, class: 'dropdown-item' %>
+              <%= link_to t('.post'), boards_path, class: 'dropdown-item' %>
+              <hr class="dropdown-divider">
+              <%= link_to t('.logout'), logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %>
+            </div>
           </div>
         <% else %>
           <%= link_to t('.login'), login_path, class: "btn btn-outline-primary me-2" %>
@@ -27,3 +32,52 @@
     </div>
   </nav>
 </header>
+
+<script>
+// ========================================
+// 🍜 ラーメン道専用ドロップダウン
+// ========================================
+function toggleRamenMenu() {
+  console.log('🍜 ラーメンメニューをトグル中...');
+  
+  const menu = document.getElementById('ramenUserMenu');
+  const btn = document.getElementById('ramenUserBtn');
+  
+  if (!menu || !btn) {
+    console.error('❌ メニューまたはボタンが見つかりません');
+    return;
+  }
+  
+  if (menu.style.display === 'none' || menu.style.display === '') {
+    // メニューを表示
+    menu.style.display = 'block';
+    btn.innerHTML = btn.innerHTML.replace('▼', '▲');
+    console.log('✅ メニューを表示しました');
+  } else {
+    // メニューを非表示
+    menu.style.display = 'none';
+    btn.innerHTML = btn.innerHTML.replace('▲', '▼');
+    console.log('✅ メニューを非表示にしました');
+  }
+}
+
+// 外部クリックでメニューを閉じる
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById('ramenUserMenu');
+  const btn = document.getElementById('ramenUserBtn');
+  
+  if (menu && btn) {
+    if (!btn.contains(event.target) && !menu.contains(event.target)) {
+      menu.style.display = 'none';
+      btn.innerHTML = btn.innerHTML.replace('▲', '▼');
+    }
+  }
+});
+
+// Turbo対応
+document.addEventListener('turbo:load', function() {
+  console.log('🍜 ラーメンメニュー準備完了！');
+});
+
+console.log('🍜 ラーメンドロップダウンスクリプト読み込み完了');
+</script>
