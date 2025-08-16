@@ -43,8 +43,6 @@ gem 'sorcery', '~> 0.17.0'
 
 gem 'rails-i18n'
 
-gem 'bootstrap', '~> 5.3'
-
 gem 'sassc-rails'
 
 group :development, :test do
