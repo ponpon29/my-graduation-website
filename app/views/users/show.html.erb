@@ -1,0 +1,14 @@
+<div class="mypage-container">
+  <!-- プロフィールセクション -->
+  <%= render 'profile_section', user: @user %>
+  
+  <!-- 自分のページの場合のみ編集リンクとタブを表示 -->
+  <% if @user == current_user %>
+    
+    <!-- タブセクション -->
+    <div class="tabs-container">
+      <%= render 'posts_tab', posts: @posts %>
+      <%= render 'favorites_tab', favorites: @favorites %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,32 @@
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h1 class="float-left mb-5"><%= t('.title') %></h1>
+      <%= link_to t('defaults.edit'), edit_user_path(@user), class: "btn-ramen-hover" %>
+      <table class="table">
+        <tr>
+          <th scope="row"><%= User.human_attribute_name(:email) %></th>
+          <td><%= current_user.email %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= User.human_attribute_name(:full_name) %></th>
+          <td><%= @user.decorate.full_name %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= User.human_attribute_name(:avatar) %></th>
+          <td>
+            <% if @user.avatar_url %>
+              <!-- 画像がある場合 -->
+              <%= image_tag @user.avatar_url, class: 'rounded-circle', size: '50x50' %>
+            <% else %>
+              <!-- 画像がない場合：アイコンで代替表示 -->
+              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

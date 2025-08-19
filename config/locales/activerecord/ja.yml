@@ -9,3 +9,5 @@ ja:
         first_name: 名
         password: パスワード
         password_confirmation: パスワード確認
+        full_name: 氏名
+        avatar: アバター

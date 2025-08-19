@@ -26,6 +26,10 @@ ja:
     create:
       success: ユーザー登録が完了しました
       failure: ユーザー登録に失敗しました
+    profile_section: 
+      title: プロフィール
+    edit_profile:
+      title: プロフィール編集
   static_pages:
     top:
       title: とんこつマップ
@@ -44,5 +48,5 @@ ja:
       logout: ログアウト
       login: ログイン
       create: 新規投稿
-
-
+  defaults:
+    edit: 編集
