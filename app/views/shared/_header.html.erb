@@ -17,7 +17,7 @@
             <div id="ramenUserMenu" 
                  class="dropdown-menu position-absolute" 
                  style="display: none; top: 100%; right: 0; z-index: 1050;">
-              <%= link_to t('.profile'), '#', class: 'dropdown-item' %>
+              <%= link_to t('.profile'), user_path(current_user), class: 'dropdown-item' %>
               <%= link_to t('.search'), maps_path, class: 'dropdown-item' %>
               <%= link_to t('.post'), boards_path, class: 'dropdown-item' %>
               <hr class="dropdown-divider">
