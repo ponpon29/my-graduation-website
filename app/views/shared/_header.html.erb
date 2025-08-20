@@ -8,11 +8,11 @@
       <div class="d-flex">
         <% if logged_in? %>
           <div class="position-relative">
-            <button class="btn btn-outline-primary" 
+            <button class="btn-ramen-hover" 
                     type="button" 
                     id="ramenUserBtn"
                     onclick="toggleRamenMenu()">
-              <%= current_user.email if current_user %> ▼
+              <%= "#{current_user.last_name} #{current_user.first_name}" if current_user %> ▼
             </button>
             <div id="ramenUserMenu" 
                  class="dropdown-menu position-absolute" 
