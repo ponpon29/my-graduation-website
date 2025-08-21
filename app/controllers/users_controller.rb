@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   def show
     # 他のユーザーのページを見ることができるか、自分のみかを判断
     @posts = @user.boards.order(created_at: :desc) if @user == current_user
-    #@favorites = @user.favorites.includes(:shop) if @user == current_user
+    @favorite_shops = @user.favorite_shops.includes(:favorites)
   end
 
   # プロフィール編集画面

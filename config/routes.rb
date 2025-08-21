@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root 'static_pages#top'
-  resources :shops, only: [:index, :show]
+  resources :shops, only: [:index, :show] do
+    member do
+      post :favorite
+      delete :unfavorite
+    end
+    collection do
+      get :favorites  
+    end
+  end
   resources :maps, only: [:index]
   resources :users, only: %i[new create show edit update]
   resources :boards, only: %i[index new create]
