@@ -8,12 +8,34 @@
     <p class="mb-2">⭐ <%= @shop.rating || '評価なし' %></p>
 
     <div class="mb-3">
-      <button onclick="navigateToShop({latitude: '<%= @shop.latitude %>', longitude: '<%= @shop.longitude %>', name: '<%= @shop.name %>'})" 
-              class="btn btn-success">
-        <i class="fas fa-map-marker-alt me-2"></i>ここに行く
-      </button>
-    </div>
-  </div>
+  <!-- お気に入り機能 -->
+  <% if current_user.present? %>
+    <% if current_user.favorite?(@shop) %>
+      <%= link_to unfavorite_shop_path(@shop), method: :delete, 
+                  data: { turbo_method: :delete }, 
+                  class: "btn btn-danger me-2" do %>
+        <i class="fas fa-heart me-1"></i>お気に入り解除
+      <% end %>
+    <% else %>
+      <%= link_to favorite_shop_path(@shop), method: :post, 
+                  data: { turbo_method: :post }, 
+                  class: "btn btn-outline-danger me-2" do %>
+        <i class="far fa-heart me-1"></i>お気に入り
+      <% end %>
+    <% end %>
+  <% else %>
+    <!-- ログインしていない場合の表示 -->
+    <%= link_to login_path, class: "btn btn-outline-secondary me-2" do %>
+      <i class="far fa-heart me-1"></i>お気に入り（ログインが必要）
+    <% end %>
+  <% end %>
+  
+  <!-- ここに行くボタン -->
+  <button onclick="navigateToShop({latitude: '<%= @shop.latitude %>', longitude: '<%= @shop.longitude %>', name: '<%= @shop.name %>'})" 
+          class="btn btn-success">
+    <i class="fas fa-map-marker-alt me-2"></i>ここに行く
+  </button>
+</div>
 
   <!-- タブナビゲーション -->
   <ul class="nav nav-tabs justify-content-center" id="shopTabs" role="tablist">
