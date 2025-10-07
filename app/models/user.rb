@@ -9,6 +9,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { maximum: 255 }
   validates :last_name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: true
+  validates :reset_password_token, uniqueness: true, allow_nil: true
 
   has_many :boards, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -28,5 +29,29 @@ class User < ApplicationRecord
 
   def favorite?(shop)
     favorite_shops.include?(shop)
+  end
+
+  def deliver_reset_password_instructions!
+    regenerate_reset_password_token!
+    UserMailer.reset_password_email(self).deliver_now
+  end
+
+  private
+
+  def regenerate_reset_password_token!
+    self.reset_password_token = generate_reset_password_token
+    self.reset_password_token_expires_at = Time.current + reset_password_expiration_period
+    save!(validate: false)
+  end
+
+  def generate_reset_password_token
+    loop do
+      token = SecureRandom.urlsafe_base64
+      break token unless User.exists?(reset_password_token: token)
+    end
+  end
+
+  def reset_password_expiration_period
+    1.hour
   end
 end

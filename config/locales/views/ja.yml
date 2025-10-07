@@ -50,3 +50,16 @@ ja:
       create: 新規投稿
   defaults:
     edit: 編集
+    password_reset: "パスワードリセット" 
+  password_resets:
+    new:
+      title: "パスワードリセット"
+      submit: "送信"
+    create:
+      success: "パスワードリセットの手順をメールで送信しました"
+    edit:
+      title: "パスワード変更"
+      submit: "更新"
+    update:
+      success: "パスワードが正常に更新されました"
+      fail: "パスワードの更新に失敗しました"

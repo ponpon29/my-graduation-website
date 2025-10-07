@@ -61,6 +61,8 @@ group :development, :test do
 
   gem 'dotenv-rails'
 
+  gem 'letter_opener_web', '2.0.0'
+
 end
 
 group :development do

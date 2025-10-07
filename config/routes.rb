@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "password_resets/new"
+  get "password_resets/create"
+  get "password_resets/edit"
+  get "password_resets/update"
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root 'static_pages#top'
   resources :shops, only: [:index, :show] do
@@ -13,6 +20,7 @@ Rails.application.routes.draw do
   resources :maps, only: [:index]
   resources :users, only: %i[new create show edit update]
   resources :boards, only: %i[index new create]
+  resources :password_resets, only: %i[new create edit update]
 
   get 'shops/index', to: 'shops#index'
   get 'login', to: 'user_sessions#new'
