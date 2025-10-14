@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
+  authenticates_with_sorcery! do |config|
+    config.authentications_class = Authentication
+  end
 
   mount_uploader :avatar, AvatarUploader
   
@@ -14,6 +17,8 @@ class User < ApplicationRecord
   has_many :boards, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_shops, through: :favorites, source: :shop
+  has_many :authentications, dependent: :destroy
+  accepts_nested_attributes_for :authentications
 
   def avatar_url
     avatar.present? ? avatar.url : nil
