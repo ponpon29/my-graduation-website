@@ -13,11 +13,13 @@ Rails.application.routes.draw do
     collection do
       get :favorites  
     end
+    resources :reviews, only: [:index, :new, :create, :destroy]
   end
   
   resources :maps, only: [:index]
   resources :users, only: %i[new create show edit update]
   resources :boards, only: %i[index new create]
+  resources :reviews, only: [:index, :new]
   resources :password_resets, only: %i[new create edit update]
 
   get 'login', to: 'user_sessions#new'

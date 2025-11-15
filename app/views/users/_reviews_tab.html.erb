@@ -1,0 +1,72 @@
+<div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+  <div class="container-fluid px-4 mt-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-6">
+        <% if @reviews.present? %>
+          <% @reviews.each do |review| %>
+            <div class="card mb-2 shadow-sm">
+              <div class="card-body py-3">
+                <div class="mb-2">
+                  <h6 class="card-title mb-1">
+                    <%= link_to review.shop.name, shop_path(review.shop), 
+                                class: 'text-decoration-none text-primary' %>
+                  </h6>
+                  <small class="text-muted">
+                    <%= review.shop.address if review.shop.address.present? %>
+                  </small>
+                </div>
+                
+                <div class="d-flex align-items-center mb-2">
+                  <% if review.user.avatar_url_or_default %>
+                    <%= image_tag review.user.avatar_url_or_default, 
+                                  class: 'rounded-circle me-2',
+                                  size: '40x40',
+                                  alt: "#{review.user.display_name}のアバター" %>
+                  <% else %>
+                    <div class="rounded-circle bg-secondary me-2" 
+                          style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
+                    </div>
+                  <% end %>
+                  
+                  <div>
+                    <h6 class="mb-0 text-start fs-6"><%= review.user.display_name %></h6>
+                  </div>
+                </div>
+                
+                <div class="rating mb-2 text-start">
+                  <% review.rating.times do %>
+                    <span class="text-warning">★</span>
+                  <% end %>
+                  <% (5 - review.rating).times do %>
+                    <span class="text-muted">☆</span>
+                  <% end %>
+                </div>
+                
+                <p class="card-text text-start mb-2 fs-6">
+                  <%= review.content %>
+                </p>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted fs-7">
+                    <%= l review.created_at, format: :short %>
+                  </small>
+                  
+                  <% if logged_in? && review.user == current_user %>
+                    <%= link_to '削除', [review.shop, review], 
+                                method: :delete, 
+                                class: 'btn btn-sm btn-outline-danger',
+                                confirm: 'レビューを削除しますか？' %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center">
+            まだレビューを投稿していません。
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

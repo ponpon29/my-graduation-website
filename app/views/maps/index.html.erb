@@ -144,11 +144,11 @@ function initMap() {
           <h5 class="mb-2">${shop.name}</h5>
           <p class="mb-2">評価: ${shop.rating || '評価なし'}</p>
           <div class="text-end">
-            <a href="/shops/${shop.id}" class="btn btn-primary btn-sm me-2">
+            <a href="/shops/${shop.id}" class="btn btn-outline-primary btn-sm me-2">
               詳細
             </a>
             <button onclick="navigateToShop({latitude: '${shop.latitude}', longitude: '${shop.longitude}', name: '${shop.name}'})" 
-                    class="btn btn-success btn-sm">
+                    class="btn btn-outline-success btn-sm">
               ここに行く
             </button>
           </div>
