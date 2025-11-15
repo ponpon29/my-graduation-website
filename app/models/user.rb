@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :reset_password_token, uniqueness: true, allow_nil: true
 
-  has_many :boards, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_shops, through: :favorites, source: :shop
   has_many :authentications, dependent: :destroy
@@ -22,6 +22,18 @@ class User < ApplicationRecord
 
   def avatar_url
     avatar.present? ? avatar.url : nil
+  end
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
+
+  def display_name
+    full_name.present? ? full_name : email.split('@').first
+  end
+  
+  def avatar_url_or_default
+    avatar.present? ? avatar.url : '/assets/default_avatar.png'
   end
 
   def favorite(shop)

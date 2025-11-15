@@ -16,22 +16,17 @@ class UsersController < ApplicationController
     end
   end
 
-  # マイページ表示
   def show
-    # 他のユーザーのページを見ることができるか、自分のみかを判断
-    @posts = @user.boards.order(created_at: :desc) if @user == current_user
+    @reviews = @user.reviews.includes(:shop).order(created_at: :desc)
     @favorite_shops = @user.favorite_shops.includes(:favorites)
   end
 
-  # プロフィール編集画面
   def edit
-    # 自分のプロフィールのみ編集可能
     redirect_to root_path, danger: '不正なアクセスです' unless @user == current_user
 
     render 'edit_profile'
   end
 
-  # プロフィール更新
   def update
     if @user == current_user && @user.update(profile_params)
       redirect_to user_path(@user), success: 'プロフィールを更新しました'
@@ -50,8 +45,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
-
-  # プロフィール更新用のパラメータ（パスワード以外）
+  
   def profile_params
     params.require(:user).permit(:first_name, :last_name, :email, :bio, :avatar)
   end

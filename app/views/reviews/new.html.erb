@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <%= form_with model: [@shop, @review], local: true do |f| %>
+            <% if @review.errors.any? %>
+              <div class="alert alert-danger">
+                <h6><i class="fas fa-exclamation-triangle me-2"></i>入力内容に問題があります</h6>
+                <ul class="mb-0">
+                  <% @review.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-4">
+              <%= f.label :rating, '評価', class: 'form-label fw-bold' %>
+              <div class="rating-container">
+                <div id="rating-input"></div>
+                <%= f.hidden_field :rating, id: 'rating-value' %>
+                <div class="mt-2">
+                  <span id="rating-message" class="text-muted">星をクリックして評価してください</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :content, 'レビュー', class: 'form-label fw-bold' %>
+              <%= f.text_area :content, 
+                  class: 'form-control', 
+                  rows: 6, 
+                  maxlength: 1000 %>
+              <small class="form-text text-muted">
+                具体的な感想を教えてください（1000文字以内）
+              </small>
+            </div>
+
+            <div class="alert alert-info">
+              <h6><i class="fas fa-info-circle me-2"></i>レビュー投稿について</h6>
+              <ul class="mb-0 small">
+                <li>実際に訪れたお店の感想を正直にお書きください</li>
+                <li>他のユーザーの参考になる具体的な内容をお願いします</li>
+                <li>不適切な内容は削除される場合があります</li>
+              </ul>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+              <%= link_to shop_path(@shop), class: 'btn-ramen-hover' do %>
+                <i class="fas fa-arrow-left me-2"></i>戻る
+              <% end %>
+              
+              <div>
+                <%= f.submit '投稿する', 
+                    class: 'btn btn-outline-primary btn-lg',
+                    data: { 
+                      confirm: 'レビューを投稿しますか？',
+                      disable_with: '投稿中...' 
+                    } do %>
+                  <i class="fas fa-paper-plane me-2"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('#rating-input').raty({
+    starType: 'img',
+    number: 5,
+    starOff: '<%= asset_path("raty/star-off.png") %>',
+    starOn: '<%= asset_path("raty/star-on.png") %>',
+    starHalf: '<%= asset_path("raty/star-half.png") %>',
+    click: function(score, evt) {
+      $('#rating-value').val(score);
+      
+      const messages = {
+        1: '⭐',
+        2: '⭐⭐', 
+        3: '⭐⭐⭐',
+        4: '⭐⭐⭐⭐',
+        5: '⭐⭐⭐⭐⭐'
+      };
+      
+      $('#rating-message').text(messages[score] + ' を選択しました');
+      $('#rating-message').removeClass('text-muted').addClass('text-success fw-bold');
+    }
+  });
+});
+</script>

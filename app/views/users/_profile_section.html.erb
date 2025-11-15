@@ -16,10 +16,8 @@
           <th scope="row"><%= User.human_attribute_name(:avatar) %></th>
           <td>
             <% if @user.avatar_url %>
-              <!-- 画像がある場合 -->
               <%= image_tag @user.avatar_url, class: 'rounded-circle', size: '50x50' %>
             <% else %>
-              <!-- 画像がない場合：アイコンで代替表示 -->
               <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                 <i class="fas fa-user text-white"></i>
               </div>

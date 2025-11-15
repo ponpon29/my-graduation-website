@@ -1,0 +1,19 @@
+<div class="tab-pane fade" id="favorites" role="tabpanel">
+  <div class="container mt-4">
+    <% if @favorite_shops.present? %>
+      <div class="row">
+        <% @favorite_shops.each do |shop| %>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <%= render 'favorite_shop_card', shop: shop %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center mt-5">
+        <i class="far fa-heart fa-4x text-muted mb-3"></i>
+        <h5 class="text-muted mb-3">お気に入りした店舗がありません</h5>
+        <%= link_to "店舗を探す", maps_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
