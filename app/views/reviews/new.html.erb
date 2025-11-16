@@ -37,6 +37,12 @@
               </small>
             </div>
 
+            <div class="mb-4">
+              <%= f.label :review_image %>
+              <%= f.file_field :review_image, class: "form-control", accept: 'image/*' %>
+              <%= f.hidden_field :review_image_cache %>
+            </div>
+
             <div class="alert alert-info">
               <h6><i class="fas fa-info-circle me-2"></i>レビュー投稿について</h6>
               <ul class="mb-0 small">

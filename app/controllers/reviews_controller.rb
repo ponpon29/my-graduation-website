@@ -27,7 +27,7 @@ class ReviewsController < ApplicationController
     if @review.save
       redirect_to shop_path(@shop, tab: 'reviews'), success: 'レビューを投稿しました'
     else
-      @reviews = @shop.reviews.includes(:user).recent
+      @reviews = @shop.reviews.includes(:user).order(created_at: :desc)  # recentメソッドを修正
       @average_rating = @shop.reviews.average(:rating)&.round(1)
       render :new, status: :unprocessable_entity
     end
@@ -47,12 +47,12 @@ class ReviewsController < ApplicationController
   def set_review
     @review = current_user.reviews.find(params[:id])
   end
-  
-  def review_params
-    params.require(:review).permit(:rating, :content, :image)
-  end
 
   def set_shop_if_present
     @shop = Shop.find(params[:shop_id]) if params[:shop_id].present?
+  end
+
+  def review_params
+    params.require(:review).permit(:rating, :content, :review_image)
   end
 end
