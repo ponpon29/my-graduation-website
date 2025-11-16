@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   
   root 'static_pages#top'
   
+  # 全体のレビュー一覧を先に定義
+  resources :reviews, only: [:index]
+  
   resources :shops, only: [:index, :show] do
     member do
       post :favorite
@@ -13,13 +16,11 @@ Rails.application.routes.draw do
     collection do
       get :favorites  
     end
-    resources :reviews, only: [:index, :new, :create, :destroy]
+    resources :reviews, only: [:new, :create, :destroy, :edit, :update]  # indexを除外
   end
   
   resources :maps, only: [:index]
   resources :users, only: %i[new create show edit update]
-  resources :boards, only: %i[index new create]
-  resources :reviews, only: [:index, :new]
   resources :password_resets, only: %i[new create edit update]
 
   get 'login', to: 'user_sessions#new'
@@ -31,7 +32,6 @@ Rails.application.routes.draw do
   get "oauth/failure" => "oauths#failure", as: :oauth_failure
   
   get "up" => "rails/health#show", as: :rails_health_check
-
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 end
