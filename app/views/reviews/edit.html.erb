@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-edit me-2"></i>レビューを編集
+          </h4>
+          <small class="text-white-50">
+            <%= @shop.name %> のレビュー
+          </small>
+        </div>
+        
+        <div class="card-body">
+          <%= form_with model: [@shop, @review], local: true do |f| %>
+            <%= render 'shared/error_messages', object: f.object %>
+
+            <%= hidden_field_tag :return_to, params[:return_to] %>
+            
+            <div class="mb-4">
+              <%= f.label :rating, '評価', class: 'form-label fw-bold' %>
+              <div class="rating-container">
+                <div id="rating-input"></div>
+                <%= f.hidden_field :rating, id: 'rating-value' %>
+                <div class="mt-2">
+                  <span id="rating-message" class="text-muted">星をクリックして評価してください</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :content, 'レビュー', class: 'form-label fw-bold' %>
+              <%= f.text_area :content, 
+                  class: 'form-control', 
+                  rows: 6, 
+                  maxlength: 1000,
+                  placeholder: 'お店の感想を教えてください...' %>
+              <div class="form-text">
+                <span id="content-count"><%= @review.content&.length || 0 %></span> / 1000文字
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :review_image, '写真', class: 'form-label fw-bold' %>
+              <%= f.file_field :review_image, 
+                  class: 'form-control',
+                  accept: 'image/*' %>
+              
+              <% if @review.review_image.present? %>
+                <div class="mt-3">
+                  <p class="text-muted mb-2">現在の画像:</p>
+                  <%= image_tag @review.review_image_url, 
+                      class: "img-fluid rounded shadow-sm", 
+                      style: "max-width: 200px; height: auto;",
+                      alt: "現在のレビュー画像" %>
+                  <div class="form-text text-info">
+                    <small>新しい画像を選択すると、現在の画像が置き換わります</small>
+                  </div>
+                </div>
+              <% end %>
+              
+              <div class="form-text">
+                JPEGまたはPNG形式の画像をアップロードできます
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <%= link_to 'キャンセル', @shop, 
+                  class: 'btn btn-secondary me-md-2' %>
+              <%= f.submit '更新する', 
+                  class: 'btn btn-primary',
+                  data: { disable_with: '更新中...' } %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('#rating-input').raty({
+    starType: 'img',
+    number: 5,
+    starOff: '<%= asset_path("raty/star-off.png") %>',
+    starOn: '<%= asset_path("raty/star-on.png") %>',
+    starHalf: '<%= asset_path("raty/star-half.png") %>',
+    score: <%= @review.rating || 0 %>,
+    click: function(score, evt) {
+      $('#rating-value').val(score);
+      
+      const messages = {
+        1: '⭐',
+        2: '⭐⭐', 
+        3: '⭐⭐⭐',
+        4: '⭐⭐⭐⭐',
+        5: '⭐⭐⭐⭐⭐'
+      };
+      
+      $('#rating-message').text(messages[score] + ' を選択しました');
+      $('#rating-message').removeClass('text-muted').addClass('text-success fw-bold');
+    }
+  });
+  
+  $('#rating-value').val(<%= @review.rating || 0 %>);
+  
+  <% if @review.rating.present? %>
+    const initialMessages = {
+      1: '⭐',
+      2: '⭐⭐', 
+      3: '⭐⭐⭐',
+      4: '⭐⭐⭐⭐',
+      5: '⭐⭐⭐⭐⭐'
+    };
+    $('#rating-message').text(initialMessages[<%= @review.rating %>] + ' が設定されています');
+    $('#rating-message').removeClass('text-muted').addClass('text-success fw-bold');
+  <% end %>
+});
+</script>
