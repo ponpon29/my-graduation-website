@@ -30,17 +30,14 @@
         <% end %>
         
         <!-- 修正部分：Googleログイン -->
-        <div class='text-center'> 
-          <div class="oauth-section">
+        <div class="oauth-section">
+          <div class="text-center mb-3">
             <p>または</p>
-            <%= form_with url: auth_at_provider_path(provider: :google), 
-                method: :post, 
-                local: true,
-                data: { turbo: false } do |form| %>
-              <button type="submit" class="btn btn-google">
-                <i class="fab fa-google"></i>
-                Googleで新規登録
-              </button>
+            <%= link_to auth_at_provider_path(provider: :google), 
+                class: "btn btn-google",
+                data: { turbo: false } do %>
+              <i class="fab fa-google"></i>
+              Googleで新規登録
             <% end %>
           </div>
         </div>
