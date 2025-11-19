@@ -165,9 +165,9 @@ Rails.application.config.sorcery.configure do |config|
   config.google.secret = ENV['GOOGLE_CLIENT_SECRET']
 
   if Rails.env.production?
-    config.google.callback_url = "https://my-graduation-website.onrender.com/oauth/callback?provider=google"
+    config.google.callback_url = "https://my-graduation-website.onrender.com/oauth/google/callback"
   else
-    config.google.callback_url = "http://localhost:3000/oauth/callback?provider=google"
+    config.google.callback_url = "http://localhost:3000/oauth/google/callback"
   end
 
   config.google.user_info_mapping = {
