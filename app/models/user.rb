@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  authenticates_with_sorcery!
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
@@ -9,8 +8,8 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
-  validates :first_name, presence: true, length: { maximum: 255 }
-  validates :last_name, presence: true, length: { maximum: 255 }
+  validates :first_name, presence: true, length: { maximum: 255 }, unless: :password_reset_context?
+  validates :last_name, presence: true, length: { maximum: 255 }, unless: :password_reset_context?
   validates :email, presence: true, uniqueness: true
   validates :reset_password_token, uniqueness: true, allow_nil: true
 
@@ -71,4 +70,9 @@ class User < ApplicationRecord
   def reset_password_expiration_period
     1.hour
   end
+
+  def password_reset_context?
+    reset_password_token.present?
+  end
+
 end
