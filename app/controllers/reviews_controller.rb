@@ -50,9 +50,8 @@ class ReviewsController < ApplicationController
   def destroy
     shop = @review.shop
     @review.destroy
-    
-    redirect_path = determine_redirect_path_from_params(shop)
-    redirect_to redirect_path, success: 'レビューを削除しました'
+
+    flash.now[:success] = 'レビューを削除しました'
   end
   
   private

@@ -1,0 +1,6 @@
+<%= turbo_stream.remove "review-#{@review.id}" %>
+<%= turbo_stream.update "flash-messages" do %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
