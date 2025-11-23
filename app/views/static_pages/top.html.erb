@@ -8,9 +8,9 @@
     <p class="fs-4"><%= t('.subtitle') %></p>
   </div>
 
-  <div class="d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5 mb-5">
+  <div class="d-flex flex-wrap justify-content-center gap-2 gap-md-4 mt-5 mb-5">
     <%= link_to t('.search'), maps_path, class: "btn-ramen-hover" %>
-    <%= link_to t('みんなの投稿'),reviews_path, class: "btn-ramen-hover" %>
+    <%= link_to t('みんなの投稿'), reviews_path, class: "btn-ramen-hover" %>
     <%= link_to t('.create'), new_user_path, class: "btn-ramen-hover" %>
   </div>
 </div>
@@ -26,8 +26,8 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2">🔍 お店を探す</h5>
-          <p class="mb-0">地図やキーワードから<br>ラーメン店を探せます</p>
+          <h5 class="fw-bold mb-2 fs-6">🔍 お店を探す</h5>
+          <p class="mb-0 small">地図やキーワードから<br>ラーメン店を探せます</p>
         </div>
       </div>
     </div>
@@ -35,8 +35,8 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2">🍜 みんなの投稿を見る</h5>
-          <p class="mb-0">ユーザーの口コミや<br>写真をチェックできます</p>
+          <h5 class="fw-bold mb-2 fs-6">🍜 みんなの投稿を見る</h5>
+          <p class="mb-0 small">ユーザーの口コミや<br>写真をチェックできます</p>
         </div>
       </div>
     </div>
@@ -44,8 +44,8 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2">👤 マイページ登録</h5>
-          <p class="mb-0">会員登録で<br>機能が増えます</p>
+          <h5 class="fw-bold mb-2 fs-6">👤 マイページ登録</h5>
+          <p class="mb-0 small">会員登録で<br>機能が増えます</p>
         </div>
       </div>
     </div>
@@ -55,13 +55,13 @@
     <h3 class="fw-bold text-muted">マイページ登録でできること</h3>
   </div>
 
-  <!-- 下段も3列表示に統一（中央寄せ） -->
+  <!-- 下段も同様に修正 -->
   <div class="row g-3 justify-content-center">
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2">✍️ 口コミ投稿</h5>
-          <p class="mb-0">お店に行った感想を投稿して<br>他のユーザーと共有できます</p>
+          <h5 class="fw-bold mb-2 fs-6">✍️ 口コミ投稿</h5>
+          <p class="mb-0 small">お店に行った感想を投稿して<br>他のユーザーと共有できます</p>
         </div>
       </div>
     </div>
@@ -69,10 +69,10 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2">⭐ お気に入り登録</h5>
-          <p class="mb-0">気になるお店を保存して<br>いつでも見返せます</p>
+          <h5 class="fw-bold mb-2 fs-6">⭐ お気に入り登録</h5>
+          <p class="mb-0 small">気になるお店を保存して<br>いつでも見返せます</p>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div

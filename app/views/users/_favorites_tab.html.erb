@@ -9,11 +9,12 @@
         <% end %>
       </div>
     <% else %>
-      <div class="text-center mt-5">
-        <i class="far fa-heart fa-4x text-muted mb-3"></i>
-        <h5 class="text-muted mb-3">お気に入りした店舗がありません</h5>
-        <%= link_to "店舗を探す", maps_path, class: "btn btn-primary" %>
-      </div>
+      <div class="text-muted mb-3 text-center">
+        <div class="mb-2">お気に入りした店舗がありません。</div>
+        <div>
+          <%= link_to "店舗を探す", maps_path, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div
     <% end %>
   </div>
 </div>
