@@ -46,27 +46,22 @@
             <div class="alert alert-info">
               <h6><i class="fas fa-info-circle me-2"></i>レビュー投稿について</h6>
               <ul class="mb-0 small">
-                <li>実際に訪れたお店の感想を正直にお書きください</li>
-                <li>他のユーザーの参考になる具体的な内容をお願いします</li>
+                <li>訪れたお店の感想を正直にお書きください</li>
+                <li>具体的な内容をお願いします</li>
                 <li>不適切な内容は削除される場合があります</li>
               </ul>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-              <%= link_to shop_path(@shop), class: 'btn-ramen-hover' do %>
+            <div class="d-flex flex-column gap-2 align-items-center">
+              <button type="submit" class="btn btn-outline-primary"
+                      data-confirm="レビューを投稿しますか？"
+                      data-disable-with="投稿中...">
+                <i class="fas fa-paper-plane me-2"></i>投稿
+              </button>
+  
+              <%= link_to shop_path(@shop), class: 'btn btn-secondary btn-ramen-hover' do %>
                 <i class="fas fa-arrow-left me-2"></i>戻る
               <% end %>
-              
-              <div>
-                <%= f.submit '投稿する', 
-                    class: 'btn btn-outline-primary btn-lg',
-                    data: { 
-                      confirm: 'レビューを投稿しますか？',
-                      disable_with: '投稿中...' 
-                    } do %>
-                  <i class="fas fa-paper-plane me-2"></i>
-                <% end %>
-              </div>
             </div>
           <% end %>
         </div>
