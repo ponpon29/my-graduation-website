@@ -10,9 +10,9 @@
       </div>
     <% else %>
       <div class="text-muted mb-3 text-center">
-        <div class="mb-2">お気に入りした店舗がありません。</div>
+        <div class="mb-2"><%= t('defaults.no_favorites') %></div>
         <div>
-          <%= link_to "店舗を探す", maps_path, class: "btn btn-primary btn-sm" %>
+          <%= link_to t('defaults.search_shops'), maps_path, class: "btn btn-primary btn-sm" %>
         </div>
       </div
     <% end %>

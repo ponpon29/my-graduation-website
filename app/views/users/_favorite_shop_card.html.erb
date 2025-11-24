@@ -21,12 +21,12 @@
     
     <div class="mt-auto">
       <div class="d-flex gap-2">
-        <%= link_to "詳細を見る", shop_path(shop), class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "お気に入り解除", shop_favorite_path(shop),
+        <%= link_to t('defaults.view_detail'), shop_path(shop), class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to t('defaults.remove_favorite'), shop_favorite_path(shop),
                     class: "btn btn-outline-danger btn-sm",
                     data: { 
                       turbo_method: :delete,
-                      turbo_confirm: "お気に入りから削除しますか？"
+                      turbo_confirm: t('defaults.favorite_confirm')
                     },
                     remote: true %>
       </div>

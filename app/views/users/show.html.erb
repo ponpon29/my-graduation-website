@@ -1,32 +1,26 @@
 <div class="mypage-container">
-  <!-- プロフィールセクション -->
   <%= render 'profile_section', user: @user %>
 
-  <!-- 自分のページの場合のみ編集リンクとタブを表示 -->
   <% if @user == current_user %>
     
-    <!-- タブナビゲーション（メインファイルに直接記述） -->
     <ul class="nav nav-tabs justify-content-center" id="shopTabs" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" 
                 data-bs-target="#posts" type="button" role="tab">
-          投稿
+          <%= t('.submit') %>
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="favorites-tab" data-bs-toggle="tab" 
                 data-bs-target="#favorites" type="button" role="tab">
-          お気に入り
+          <%= t('.favorite') %>
         </button>
       </li>
     </ul>
 
-    <!-- タブコンテンツ（パーシャル化） -->
     <div class="tab-content" id="shopTabsContent">
-      <!-- 投稿タブ -->
       <%= render 'reviews_tab' %>
       
-      <!-- お気に入りタブ -->
       <%= render 'favorites_tab' %>
     </div>
   <% end %>

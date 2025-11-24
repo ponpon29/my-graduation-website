@@ -34,7 +34,7 @@
                     <%= image_tag review.review_image_url, 
                                   class: "img-fluid rounded", 
                                   style: "max-width: 100%; height: auto; max-height: 300px; object-fit: cover;",
-                                  alt: "レビュー画像" %>
+                                  alt: t('.posts_tab.review_image_alt') %>
                   </div>
                 <% end %>
                 
@@ -45,13 +45,15 @@
                   
                   <% if logged_in? && review.user == current_user %>
                     <div class="btn-group" role="group">
-                      <%= link_to '編集', edit_shop_review_path(review.shop, review, return_to: 'mypage'),
+                      <%= link_to t('defaults.edit'), 
+                          edit_shop_review_path(review.shop, review, return_to: 'mypage'),
                           class: 'btn btn-sm btn-outline-primary me-2' %>
         
-                      <%= link_to '削除', shop_review_path(review.shop, review),
+                      <%= link_to t('defaults.delete'), 
+                          shop_review_path(review.shop, review),
                           data: { 
-                            'turbo-method': :delete,
-                            'turbo-confirm': '本当に削除しますか？'
+                            'turbo_method': :delete,
+                            'turbo_confirm': t('defaults.delete_confirm')
                           },
                           class: 'btn btn-sm btn-outline-danger' %>
                     </div>
@@ -62,7 +64,7 @@
           <% end %>
         <% else %>
           <div class="text-center">
-            まだレビューを投稿していません。
+            <%= t('defaults.no_reviews') %>
           </div>
         <% end %>
       </div>

@@ -29,7 +29,6 @@
           </div>
         <% end %>
         
-        <!-- 修正部分：Googleログイン -->
         <div class="oauth-section">
           <div class="text-center mb-3">
             <p>または</p>
@@ -37,7 +36,7 @@
                 class: "btn btn-google",
                 data: { turbo: false } do %>
               <i class="fab fa-google"></i>
-              Googleで新規登録
+              <%= t('.google_login') %>
             <% end %>
           </div>
         </div>
