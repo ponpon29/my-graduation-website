@@ -5,18 +5,11 @@ Rails.application.routes.draw do
   
   root 'static_pages#top'
   
-  # 全体のレビュー一覧を先に定義
   resources :reviews, only: [:index]
   
   resources :shops, only: [:index, :show] do
-    member do
-      post :favorite
-      delete :unfavorite
-    end
-    collection do
-      get :favorites  
-    end
-    resources :reviews, only: [:new, :create, :destroy, :edit, :update]  # indexを除外
+    resource :favorite, only: [:create, :destroy]
+    resources :reviews, only: [:new, :create, :destroy, :edit, :update]
   end
   
   resources :maps, only: [:index]

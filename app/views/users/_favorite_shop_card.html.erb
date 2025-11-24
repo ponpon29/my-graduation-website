@@ -1,4 +1,4 @@
-<div class="card h-100 shadow-sm">
+<div class="card h-100 shadow-sm" id="favorite-shop-<%= shop.id %>">
   <% if shop.photo_url.present? %>
     <%= image_tag shop.photo_url, alt: shop.name, class: "card-img-top", 
                   style: "height: 200px; object-fit: cover;" %>
@@ -22,10 +22,13 @@
     <div class="mt-auto">
       <div class="d-flex gap-2">
         <%= link_to "詳細を見る", shop_path(shop), class: "btn btn-outline-primary btn-sm" %>
-        <%= link_to "お気に入り解除", unfavorite_shop_path(shop), method: :delete, 
+        <%= link_to "お気に入り解除", shop_favorite_path(shop),
                     class: "btn btn-outline-danger btn-sm",
-                    confirm: "お気に入りから削除しますか？",
-                    data: { turbo_method: :delete } %>
+                    data: { 
+                      turbo_method: :delete,
+                      turbo_confirm: "お気に入りから削除しますか？"
+                    },
+                    remote: true %>
       </div>
     </div>
   </div>

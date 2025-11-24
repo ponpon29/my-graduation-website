@@ -1,0 +1,22 @@
+<%= turbo_stream.remove "favorite-shop-#{@shop.id}" %>
+
+<!-- お気に入りボタンの状態を更新（他のページ用） -->
+<%= turbo_stream.replace "favorite-button-#{@shop.id}" do %>
+  <div id="favorite-button-<%= @shop.id %>">
+    <% if current_user.present? %>
+      <% if current_user.favorite?(@shop) %>
+        <%= link_to shop_favorite_path(@shop), 
+                    data: { turbo_method: :delete }, 
+                    class: "btn btn-danger me-2" do %>
+          <i class="fas fa-heart me-1"></i>お気に入り解除
+        <% end %>
+      <% else %>
+        <%= link_to shop_favorite_path(@shop),
+                    data: { turbo_method: :post }, 
+                    class: "btn btn-outline-danger me-2" do %>
+          <i class="far fa-heart me-1"></i>お気に入り
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
