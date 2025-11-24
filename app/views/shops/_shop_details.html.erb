@@ -1,19 +1,16 @@
 <div class="mt-4">
-  <!-- 住所 -->
   <div class="mb-3">
-    <h5 class="mb-2">📍 所在地</h5>
+    <h5 class="mb-2"><%= t('defaults.address_icon') %> <%= t('defaults.address_label') %></h5>
     <p class="mb-0"><%= shop.address %></p>
   </div>
 
-  <!-- 電話番号 -->
   <div class="mb-3">
-    <h5 class="mb-2">📞 電話番号</h5>
+    <h5 class="mb-2"><%= t('defaults.phone_icon') %> <%= t('defaults.phone_label') %></h5>
     <p class="mb-0"><%= shop.phone %></p>
   </div>
   
-  <!-- 営業時間 -->
   <div class="mb-4">
-    <h5 class="mb-2">🕒 営業時間</h5>
+    <h5 class="mb-2"><%= t('defaults.hours_icon') %> <%= t('defaults.hours_label') %></h5>
     <ul class="list-unstyled">
       <% shop.opening_hours.split(',').each do |hours| %>
         <li class="mb-1"><%= hours.strip %></li>

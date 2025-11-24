@@ -18,12 +18,12 @@ class OauthsController < ApplicationController
         redirect_to root_path, success: "#{provider.titleize}でアカウントを作成し、ログインしました"
       rescue => e
         Rails.logger.error "OAuth user creation failed: #{e.message}"
-        redirect_to login_path, alert: "#{provider.titleize}でのログインに失敗しました"
+        redirect_to login_path, danger: "#{provider.titleize}でのログインに失敗しました"
       end
     end
   end
 
   def failure
-    redirect_to login_path, alert: "認証がキャンセルされました"
+    redirect_to login_path, danger: "認証がキャンセルされました"
   end
 end

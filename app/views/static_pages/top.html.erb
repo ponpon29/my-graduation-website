@@ -10,24 +10,23 @@
 
   <div class="d-flex flex-wrap justify-content-center gap-2 gap-md-4 mt-5 mb-5">
     <%= link_to t('.search'), maps_path, class: "btn-ramen-hover" %>
-    <%= link_to t('みんなの投稿'), reviews_path, class: "btn-ramen-hover" %>
+    <%= link_to t('.reviews'), reviews_path, class: "btn-ramen-hover" %>
     <%= link_to t('.create'), new_user_path, class: "btn-ramen-hover" %>
   </div>
 </div>
 
 <div class="container mt-5 mb-5">
   <div class="text-center mb-4">
-    <h2 class="fw-bold text-muted">アプリの使い方</h2>
-    <p class="text-muted fs-5">はじめての方でもすぐ使えます</p>
+    <h2 class="fw-bold text-muted"><%= t('.how_to_use.title') %></h2>
+    <p class="text-muted fs-5"><%= t('.how_to_use.subtitle') %></p>
   </div>
 
-  <!-- 全て3列表示に統一 -->
   <div class="row g-3 mb-5 justify-content-center">
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2 fs-6">🔍 お店を探す</h5>
-          <p class="mb-0 small">地図やキーワードから<br>ラーメン店を探せます</p>
+          <h5 class="fw-bold mb-2 fs-6"><%= t('.features.search.title') %></h5>
+          <p class="mb-0 small"><%= t('.features.search.description').html_safe %></p>
         </div>
       </div>
     </div>
@@ -35,8 +34,8 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2 fs-6">🍜 みんなの投稿を見る</h5>
-          <p class="mb-0 small">ユーザーの口コミや<br>写真をチェックできます</p>
+          <h5 class="fw-bold mb-2 fs-6"><%= t('.features.reviews.title') %></h5>
+          <p class="mb-0 small"><%= t('.features.reviews.description').html_safe %></p>
         </div>
       </div>
     </div>
@@ -44,24 +43,23 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2 fs-6">👤 マイページ登録</h5>
-          <p class="mb-0 small">会員登録で<br>機能が増えます</p>
+          <h5 class="fw-bold mb-2 fs-6"><%= t('.features.register.title') %></h5>
+          <p class="mb-0 small"><%= t('.features.register.description').html_safe %></p>
         </div>
       </div>
     </div>
   </div>
 
   <div class="text-center mb-4">
-    <h3 class="fw-bold text-muted">マイページ登録でできること</h3>
+    <h3 class="fw-bold text-muted"><%= t('.member_features.title') %></h3>
   </div>
 
-  <!-- 下段も同様に修正 -->
   <div class="row g-3 justify-content-center">
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2 fs-6">✍️ 口コミ投稿</h5>
-          <p class="mb-0 small">お店に行った感想を投稿して<br>他のユーザーと共有できます</p>
+          <h5 class="fw-bold mb-2 fs-6"><%= t('.member_features.post_review.title') %></h5>
+          <p class="mb-0 small"><%= t('.member_features.post_review.description').html_safe %></p>
         </div>
       </div>
     </div>
@@ -69,10 +67,10 @@
     <div class="col-12 col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-body text-center py-3">
-          <h5 class="fw-bold mb-2 fs-6">⭐ お気に入り登録</h5>
-          <p class="mb-0 small">気になるお店を保存して<br>いつでも見返せます</p>
+          <h5 class="fw-bold mb-2 fs-6"><%= t('.member_features.favorites.title') %></h5>
+          <p class="mb-0 small"><%= t('.member_features.favorites.description').html_safe %></p>
         </div>
       </div>
     </div>
   </div>
-</div
+</div>

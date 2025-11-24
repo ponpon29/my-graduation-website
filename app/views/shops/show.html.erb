@@ -1,52 +1,48 @@
 <div class="container">
   <div class="text-center mb-4">
     <% if @shop.photo_url.present? %>
-      <%= image_tag @shop.photo_url, alt: "#{@shop.name}の画像", class: "img-fluid rounded mb-3", style: "max-width: 60%; height: auto;" %>
+      <%= image_tag @shop.photo_url, alt: t('defaults.shop_image_alt', name: @shop.name), class: "img-fluid rounded mb-3", style: "max-width: 60%; height: auto;" %>
     <% end %>
     <h3 class="mb-3"><%= @shop.name %></h3>
-    <p class="mb-2">⭐ <%= @shop.rating || '評価なし' %></p>
+    <p class="mb-2">⭐ <%= @shop.rating || t('defaults.no_rating') %></p>
 
-    <!-- 全てのボタンを横並びにする -->
     <div class="mb-3">
       <div class="d-flex justify-content-center gap-2 flex-wrap">
         
-        <!-- ここに行くボタン -->
         <button onclick="navigateToShop({latitude: '<%= @shop.latitude %>', longitude: '<%= @shop.longitude %>', name: '<%= @shop.name %>'})" 
                 class="btn btn-outline-success">
-          <i class="fas fa-map-marker-alt me-2"></i>ここに行く
+          <i class="fas fa-map-marker-alt me-2"></i><%= t('defaults.navigate') %>
         </button>
 
-        <!-- お気に入りボタン -->
         <div id="favorite-button-<%= @shop.id %>">           
           <% if current_user.present? %>
             <% if current_user.favorite?(@shop) %>
               <%= link_to shop_favorite_path(@shop), 
-                          data: { turbo_method: :delete }, 
+                          data: { turbo_method: :delete, turbo_confirm: t('defaults.favorite_confirm') }, 
                           class: "btn btn-danger" do %>
-                <i class="fas fa-heart me-1"></i>お気に入り解除
+                <i class="fas fa-heart me-1"></i><%= t('defaults.remove_favorite') %>
               <% end %>
             <% else %>
               <%= link_to shop_favorite_path(@shop),
                           data: { turbo_method: :post }, 
                           class: "btn btn-outline-danger" do %>
-                <i class="far fa-heart me-1"></i>お気に入り
+                <i class="far fa-heart me-1"></i><%= t('defaults.add_favorite') %>
               <% end %>
             <% end %>
           <% else %>
             <%= link_to login_path, class: "btn btn-outline-secondary" do %>
-              <i class="far fa-heart me-1"></i>お気に入り（ログインが必要）
+              <i class="far fa-heart me-1"></i><%= t('defaults.favorite_login_required') %>
             <% end %>
           <% end %>
         </div>
         
-        <!-- 口コミ投稿ボタン -->
         <% if current_user.present? %>
           <%= link_to new_shop_review_path(@shop), class: "btn btn-outline-primary" do %>
-            <i class="fas fa-edit me-1"></i>口コミを投稿
+            <i class="fas fa-edit me-1"></i><%= t('defaults.post_review') %>
           <% end %>
         <% else %>
           <%= link_to login_path, class: "btn btn-outline-primary" do %>
-            <i class="fas fa-edit me-1"></i>口コミを投稿（ログインが必要）
+            <i class="fas fa-edit me-1"></i><%= t('defaults.review_login_required') %>
           <% end %>
         <% end %>
         
@@ -56,12 +52,12 @@
     <ul class="nav nav-tabs justify-content-center" id="shopTabs" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-          店舗詳細
+          <%= t('defaults.shop_details') %>
         </button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-          口コミ一覧
+          <%= t('defaults.reviews') %>
         </button>
       </li>
     </ul>
@@ -71,13 +67,12 @@
         <%= render 'shop_details', shop: @shop %>
       </div>
 
-      <!-- 口コミ一覧タブ -->
       <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
         <%= render 'reviews_tab' %>
       </div>
 
       <div class="d-flex justify-content-center gap-3">
-        <%= link_to "戻る", maps_path, class: "btn-ramen-hover" %>
+        <%= link_to t('defaults.back'), maps_path, class: "btn-ramen-hover" %>
       </div>
     </div>
   </div>
@@ -93,12 +88,12 @@ function navigateToShop(shop) {
       const url = `https://www.google.com/maps/dir/${userLat},${userLng}/${shop.latitude},${shop.longitude}`;
       window.open(url, '_blank');
     }, function(error) {
-      alert('位置情報を取得できませんでした。目的地のみ表示します。');
+      alert('<%= t(".js_messages.location_error").html_safe %>');
       const url = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
       window.open(url, '_blank');
     });
   } else {
-    alert('お使いのブラウザは位置情報に対応していません。');
+    alert('<%= t(".js_messages.browser_not_supported").html_safe %>');
     const url = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
     window.open(url, '_blank');
   }

@@ -7,10 +7,12 @@ ja:
     label:
       email: メールアドレス
       password: パスワード
+
   user_sessions:
     new:
       title: ログイン
       login: ログイン
+      google_login: Googleログイン
       to_register_page: 登録ページへ
       password_forget: パスワードをお忘れの方はこちら
     create:
@@ -18,24 +20,60 @@ ja:
       failure: ログインに失敗しました
     destroy:
       success: ログアウトしました
+
   users:
+    show:
+      submit: 投稿
+      favorite: お気に入り
     new:
       title: ユーザー登録
       create: 登録
+      google_login: Googleログイン
       to_login_page: ログインページへ
     create:
       success: ユーザー登録が完了しました
       failure: ユーザー登録に失敗しました
     profile_section: 
-      title: プロフィール
+      title: マイページ
     edit_profile:
       title: プロフィール編集
+      profile_image_alt: プロフィール画像
+
+  shops:
+    show:
+      js_messages:
+        location_error: "位置情報を取得できませんでした。目的地のみ表示します。"
+        browser_not_supported: "お使いのブラウザは位置情報に対応していません。"
+
   static_pages:
     top:
       title: とんこつマップ
       subtitle: ~とんこつラーメン店検索アプリ~
       create: 新規登録
       search: 検索
+      reviews: みんなの投稿
+      how_to_use:
+        title: アプリの使い方
+        subtitle: 初めての方でもすぐ使えます
+      features:
+        search:
+          title: "🔍 お店を探す"
+          description: "地図やキーワードから<br/>ラーメン店を探せます"
+        reviews:
+          title: "🍜 みんなの投稿を見る"
+          description: "ユーザーの口コミや<br/>写真をチェックできます"
+        register:
+          title: "👤 マイページ登録"
+          description: "会員登録で<br/>機能が増えます"
+      member_features:
+        title: マイページ登録でできること
+        post_review:
+          title: "✍️ 口コミ投稿"
+          description: "お店に行った感想を投稿して<br/>他のユーザーと共有できます"
+        favorites:
+          title: "⭐ お気に入り登録"
+          description: "気になるお店を保存して<br/>いつでも見返せます"
+
   shared:
     before_login_header:
       title: とんこつマップ
@@ -48,18 +86,53 @@ ja:
       logout: ログアウト
       login: ログイン
       create: 新規投稿
+
   defaults:
     edit: 編集
-    password_reset: "パスワードリセット" 
+    delete: 削除
+    create_post: 投稿する
+    view_detail: 詳細を見る
+    back: 戻る
+    
+    review_image: レビュー画像
+    no_reviews: まだレビューがありません
+    post_review: 口コミを投稿
+    review_login_required: 口コミを投稿（ログインが必要）
+    average_rating: 平均評価
+    reviews: 口コミ一覧
+    
+    no_favorites: お気に入りした店舗がありません
+    add_favorite: お気に入り
+    remove_favorite: お気に入り解除
+    favorite_login_required: お気に入り（ログインが必要）
+    
+    shop_details: 店舗詳細
+    no_rating: 評価なし
+    navigate: ここに行く
+    search_shops: 店舗を探す
+    address_label: 所在地
+    phone_label: 電話番号
+    hours_label: 営業時間
+    
+    delete_confirm: "本当に削除しますか？"
+    favorite_confirm: "お気に入りから削除しますか？"
+    
+    shop_image_alt: "%{name}の画像"
+    user_avatar_alt: "%{name}のアバター"
+    
+    address_icon: "📍"
+    phone_icon: "📞"
+    hours_icon: "🕒"
+
   password_resets:
     new:
-      title: "パスワードリセット"
-      submit: "送信"
+      title: パスワードリセット
+      submit: 送信
     create:
-      success: "パスワードリセットの手順をメールで送信しました"
+      success: パスワードリセットの手順をメールで送信しました
     edit:
-      title: "パスワード変更"
-      submit: "更新"
+      title: パスワード変更
+      submit: 更新
     update:
-      success: "パスワードが正常に更新されました"
-      fail: "パスワードの更新に失敗しました"
+      success: パスワードが正常に更新されました
+      fail: パスワードの更新に失敗しました

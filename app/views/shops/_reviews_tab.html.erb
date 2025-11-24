@@ -4,7 +4,9 @@
       <% if @shop.reviews.any? %>
         <% if @average_rating.present? %>
           <div class="mb-3 text-center">
-            <small class="text-muted">平均評価: <%= @average_rating %> ★</small>
+            <small class="text-muted">
+              <%= t('defaults.average_rating') %>: <%= @average_rating %> ★
+            </small>
           </div>
         <% end %>
         
@@ -16,7 +18,7 @@
                   <%= image_tag review.user.avatar_url_or_default, 
                                 class: 'rounded-circle me-2',
                                 size: '40x40',
-                                alt: "#{review.user.display_name}のアバター" %>
+                                alt: t('defaults.user_avatar_alt', name: review.user.display_name) %>
                 <% else %>
                   <div class="rounded-circle bg-secondary me-2" 
                         style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
@@ -42,13 +44,13 @@
               </p>
 
               <% if review.review_image.present? %>
-                  <div class="text-center mb-3">
-                    <%= image_tag review.review_image_url, 
-                                  class: "img-fluid rounded", 
-                                  style: "max-width: 100%; height: auto; max-height: 300px; object-fit: cover;",
-                                  alt: "レビュー画像" %>
-                  </div>
-                <% end %>
+                <div class="text-center mb-3">
+                  <%= image_tag review.review_image_url, 
+                                class: "img-fluid rounded", 
+                                style: "max-width: 100%; height: auto; max-height: 300px; object-fit: cover;",
+                                alt: t('defaults.review_image') %>
+                </div>
+              <% end %>
               
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted fs-7">
@@ -59,8 +61,8 @@
           </div>
         <% end %>
       <% else %>
-        <div class="ext-muted mb-3">
-          まだレビューがありません。
+        <div class="text-muted mb-3">
+          <%= t('defaults.no_reviews') %>
         </div>
       <% end %>
     </div>

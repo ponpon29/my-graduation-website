@@ -34,9 +34,6 @@
 </header>
 
 <script>
-// ========================================
-// 🍜 ラーメン道専用ドロップダウン
-// ========================================
 function toggleRamenMenu() {
   console.log('🍜 ラーメンメニューをトグル中...');
   
@@ -61,7 +58,6 @@ function toggleRamenMenu() {
   }
 }
 
-// 外部クリックでメニューを閉じる
 document.addEventListener('click', function(event) {
   const menu = document.getElementById('ramenUserMenu');
   const btn = document.getElementById('ramenUserBtn');
@@ -74,7 +70,6 @@ document.addEventListener('click', function(event) {
   }
 });
 
-// Turbo対応
 document.addEventListener('turbo:load', function() {
   console.log('🍜 ラーメンメニュー準備完了！');
 });
