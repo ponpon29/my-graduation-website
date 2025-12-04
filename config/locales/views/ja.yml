@@ -81,7 +81,7 @@ ja:
     header:
       title: とんこつマップ
       profile: マイページ
-      search: 検索
+      location: 場所検索
       post: みんなの投稿
       logout: ログアウト
       login: ログイン

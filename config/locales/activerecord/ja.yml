@@ -11,4 +11,16 @@ ja:
         password_confirmation: パスワード確認
         full_name: 氏名
         avatar: アバター
+      review:
+        rating: 評価  # ← これで「Rating」→「評価」に変換
+        content: レビュー内容  # ← これで「Content」→「レビュー内容」に変換
+        review_image: レビュー画像
         
+    errors:
+      models:
+        review:
+          attributes:
+            rating:
+              blank: を入力してください  # ← 「評価を入力してください」
+            content:
+              blank: を入力してください  # ← 「レビュー内容を入力してください」
