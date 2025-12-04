@@ -38,7 +38,7 @@
             </div>
 
             <div class="mb-4">
-              <%= f.label :review_image %>
+              <%= f.label :'写真', class: 'form-label fw-bold' %>
               <%= f.file_field :review_image, class: "form-control", accept: 'image/*' %>
               <%= f.hidden_field :review_image_cache %>
             </div>

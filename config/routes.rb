@@ -6,13 +6,14 @@ Rails.application.routes.draw do
   root 'static_pages#top'
   
   resources :reviews, only: [:index]
-  
   resources :shops, only: [:index, :show] do
     resource :favorite, only: [:create, :destroy]
     resources :reviews, only: [:new, :create, :destroy, :edit, :update]
   end
   
-  resources :maps, only: [:index]
+  get 'search/menu', to: 'search#menu'
+  get 'search/location', to: 'search#location'
+  get 'search/shop', to: 'search#shop'
   resources :users, only: %i[new create show edit update]
   resources :password_resets, only: %i[new create edit update]
 
