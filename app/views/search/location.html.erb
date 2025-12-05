@@ -1,79 +1,85 @@
-<div class="container">
+<% content_for :google_maps, true %>
+
+<div class="container mt-3">
   <div class="text-center mb-4">
+    <%= form_with url: search_location_path, method: :get, local: true, id: "searchForm" do |f| %>
+      <div class="d-flex align-items-center justify-content-center gap-2">
 
-    <input type="text" id="searchInput" class="form-control d-inline-block w-50"
-           placeholder="地名 / 建物名 / 駅名 / 施設名 なんでも検索">
+        <%= f.search_field :q,
+              value: params[:q],
+              class: "form-control",
+              style: "width: 600px; max-width: 100%;",
+              placeholder: "場所/地名で検索",
+              id: "searchInput",
+              autocomplete: "off" %>
 
-    <button id="searchBtn" class="btn-ramen-hover ms-2">検索</button>
+        <%= button_tag "検索",
+              type: "button",
+              class: "btn-ramen-hover",
+              id: "searchBtn" %>
 
-    <button id="getCurrentLocationBtn" class="btn-ramen-hover ms-3">
-      現在地を表示
-    </button>
-  </div>
+        <%= button_tag "現在地を表示",
+              type: "button",
+              class: "btn-ramen-hover ms-3",
+              id: "getCurrentLocationBtn" %>
 
-  <div id="map" class="flex-grow-1"></div>
-</div>
-
-<div class="modal fade" id="shopDetailModal" tabindex="-1" aria-labelledby="shopDetailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" id="shopDetailContent">
-        <div class="text-center py-5">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">読み込み中...</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <% end %>
   </div>
 </div>
 
-<style>
-#map {
-  height: 700px;
-  width: 100%;
-}
-</style>
+<div id="map" style="height: 700px; width: 100%;"></div>
 
 <script>
-let map;
-let geocoder;
-let placesService;
-let currentLocationMarker;
-let shopMarkers = [];
-let sharedInfoWindow;
-let searchMarker;
-let autocomplete;
+(function() {
+  'use strict';
 
-const shops = <%= raw @shops.to_json %>;
-//  現在地取得
-function getCurrentLocation() {
-  return new Promise((resolve, reject) => {
-    if (!navigator.geolocation) return reject();
+  const shops = <%= raw @shops.to_json %>;
 
-    navigator.geolocation.getCurrentPosition(resolve, reject, {
-      enableHighAccuracy: true,
-      timeout: 10000
+  let map, placesService, autocomplete;
+  let shopMarkers = [];
+  let currentLocationMarker = null;
+  let searchMarker = null;
+  let sharedInfoWindow;
+
+  // ⭐ ページ読み込み→まず現在地へ
+  async function moveToCurrentLocationOnLoad() {
+    try {
+      const pos = await getCurrentLocation();
+
+      const loc = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      };
+
+      map.setCenter(loc);
+      map.setZoom(15);
+
+      markCurrentLocation(loc);
+    } catch {
+      // 現在地が取れなかった → 博多駅にする
+      const hakata = { lat: 33.590188, lng: 130.420685 };
+      map.setCenter(hakata);
+      map.setZoom(14);
+    }
+  }
+
+  // ⭐ 現在地取得
+  function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 8000
+      });
     });
-  });
-}
-//  現在地に移動(ラーメン店は残す)
-async function showCurrentLocation() {
-  const btn = document.getElementById('getCurrentLocationBtn');
-  btn.textContent = "取得中...";
-  btn.disabled = true;
+  }
 
-  try {
-    const pos = await getCurrentLocation();
-    const location = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-
+  // ⭐ 青ピンで現在地を表示
+  function markCurrentLocation(loc) {
     if (currentLocationMarker) currentLocationMarker.setMap(null);
 
     currentLocationMarker = new google.maps.Marker({
-      position: location,
+      position: loc,
       map: map,
       title: "現在地",
       icon: {
@@ -81,84 +87,27 @@ async function showCurrentLocation() {
         scaledSize: new google.maps.Size(40, 40)
       }
     });
-
-    map.setCenter(location);
-    map.setZoom(15);
-
-  } catch {
-    alert("現在地を取得できませんでした");
   }
 
-  btn.textContent = "現在地を表示";
-  btn.disabled = false;
-}
-//  オートコンプリートで場所を選択したときの処理
-function onPlaceChanged() {
-  const place = autocomplete.getPlace();
+  // ⭐ 施設検索（青ピン）
+  function searchLocation() {
+    const keyword = document.getElementById("searchInput").value.trim();
+    if (!keyword) return;
 
-  // 場所の情報が取得できなかった場合
-  if (!place.geometry || !place.geometry.location) {
-    alert("選択した場所の情報を取得できませんでした");
-    return;
-  }
-
-  // 前回の検索マーカーを削除
-  if (searchMarker) {
-    searchMarker.setMap(null);
-  }
-
-  const loc = place.geometry.location;
-
-  // 検索結果に青いピンを立てる
-  searchMarker = new google.maps.Marker({
-    position: loc,
-    map: map,
-    title: place.name,
-    icon: {
-      url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-      scaledSize: new google.maps.Size(40, 40)
-    },
-    animation: google.maps.Animation.DROP
-  });
-  // InfoWindowで検索結果を表示(既存のスタイルを維持)
-  sharedInfoWindow.setContent(`
-    <div style="max-width: 280px; padding: 10px;">
-      <h5 style="margin-bottom: 8px; font-size: 16px;">${place.name}</h5>
-      <p style="margin: 5px 0; color: #666; font-size: 14px;">${place.formatted_address || '住所情報なし'}</p>
-    </div>
-  `);
-  sharedInfoWindow.open(map, searchMarker);
-
-  // 地図を移動
-  map.setCenter(loc);
-  
-  // ビューポート(表示範囲)がある場合はそれに合わせる
-  if (place.geometry.viewport) {
-    map.fitBounds(place.geometry.viewport);
-  } else {
-    map.setZoom(16);
-  }
-}
-//  Google Maps の検索 API(Places)
-function searchLocation() {
-  const keyword = document.getElementById("searchInput").value.trim();
-  if (!keyword) return;
-
-  // textSearch → Google マップ検索と同じ
-  placesService.textSearch({ query: keyword }, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-      const loc = results[0].geometry.location;
-
-      // 前回の検索マーカーを削除
-      if (searchMarker) {
-        searchMarker.setMap(null);
+    placesService.textSearch({ query: keyword }, (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK || !results.length) {
+        alert("該当する場所が見つかりませんでした");
+        return;
       }
 
-      // 検索結果に青いピンを立てる
+      const place = results[0];
+      const loc = place.geometry.location;
+
+      if (searchMarker) searchMarker.setMap(null);
       searchMarker = new google.maps.Marker({
         position: loc,
         map: map,
-        title: results[0].name,
+        title: place.name,
         icon: {
           url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
           scaledSize: new google.maps.Size(40, 40)
@@ -166,149 +115,86 @@ function searchLocation() {
         animation: google.maps.Animation.DROP
       });
 
-      // InfoWindowで検索結果を表示(既存のスタイルを維持)
       sharedInfoWindow.setContent(`
-        <div style="max-width: 280px; padding: 10px;">
-          <h5 style="margin-bottom: 8px; font-size: 16px;">${results[0].name}</h5>
-          <p style="margin: 5px 0; color: #666; font-size: 14px;">${results[0].formatted_address || '住所情報なし'}</p>
+        <div style="max-width: 260px; padding: 8px;">
+          <h5 style="margin-bottom: 6px;">${place.name}</h5>
+          <p style="color:#666;">${place.formatted_address || "住所情報なし"}</p>
         </div>
       `);
       sharedInfoWindow.open(map, searchMarker);
 
       map.setCenter(loc);
-      map.setZoom(15);
-    } else {
-      alert("該当する場所が見つかりませんでした");
-    }
-  });
-}
-//  店舗へ経路案内
-async function navigateToShop(shop) {
-  try {
-    const pos = await getCurrentLocation();
-    window.open(
-      `https://www.google.com/maps/dir/${pos.coords.latitude},${pos.coords.longitude}/${shop.latitude},${shop.longitude}`,
-      "_blank"
-    );
-  } catch {
-    window.open(
-      `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`,
-      "_blank"
-    );
+      map.setZoom(16);
+    });
   }
-}
-//  モーダルで店舗詳細を表示
-function openShopModal(shopId) {
-  const modal = new bootstrap.Modal(document.getElementById('shopDetailModal'));
-  const modalBody = document.getElementById('shopDetailContent');
-  // ローディング表示
-  modalBody.innerHTML = `
-    <div class="text-center py-5">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">読み込み中...</span>
-      </div>
-    </div>
-  `;
-  
-  modal.show(); 
-  // 詳細を取得
-  fetch(`/shops/${shopId}?modal=true`, {
-    headers: {
-      'Accept': 'text/html'
-    }
-  })
-  .then(response => response.text())
-  .then(html => {
-    modalBody.innerHTML = html;
-  })
-  .catch(error => {
-    modalBody.innerHTML = `
-      <div class="alert alert-danger">
-        エラーが発生しました。もう一度お試しください。
-      </div>
-    `;
-  });
-}
-//  Google Map 初期化
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 33.590188, lng: 130.420685 }, // 博多
-    zoom: 14
-  });
 
-  geocoder = new google.maps.Geocoder();
-  placesService = new google.maps.places.PlacesService(map);
-  sharedInfoWindow = new google.maps.InfoWindow();
-  //  オートコンプリート設定
-  const searchInput = document.getElementById("searchInput");
-  
-  autocomplete = new google.maps.places.Autocomplete(searchInput, {
-    componentRestrictions: { country: 'jp' }, // 日本に限定
-    fields: ['geometry', 'name', 'formatted_address'], // 取得する情報を指定
-    types: ['geocode', 'establishment'] // 住所と施設の両方を候補に含める
-  });
-  // マップとオートコンプリートを連動(現在の表示範囲を優先)
-  autocomplete.bindTo('bounds', map);
-  // 場所が選択されたときのイベント
-  autocomplete.addListener('place_changed', onPlaceChanged);
-  //  イベントリスナー設定
-  document.getElementById("getCurrentLocationBtn").addEventListener("click", showCurrentLocation);
-  document.getElementById("searchBtn").addEventListener("click", searchLocation);
+  // ⭐ ラーメン店（標準赤ピン）
+  function placeShopMarkers() {
+    shopMarkers.forEach(m => m.setMap(null));
+    shopMarkers = [];
 
-  // Enter でも検索
-  document.getElementById("searchInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      // オートコンプリートの候補が表示されている場合は選択、なければ通常検索
-      const place = autocomplete.getPlace();
-      if (!place || !place.geometry) {
-        searchLocation();
-      }
-    }
-  });
-  //  ラーメン店マーカー(全表示)
-  shops.forEach((shop) => {
-    const lat = parseFloat(shop.latitude);
-    const lng = parseFloat(shop.longitude);
+    shops.forEach(shop => {
+      const lat = parseFloat(shop.latitude);
+      const lng = parseFloat(shop.longitude);
 
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      map: map,
-      title: shop.name
-    });
-    // InfoWindow用のHTML(既存のスタイルを維持)
-    const contentHtml = `
-      <div style="max-width: 280px; padding: 10px;">
-        <h5 style="margin-bottom: 8px; font-size: 16px;">${shop.name}</h5>
-        <p style="margin: 5px 0; color: #666;">⭐ ${shop.rating || '評価なし'}</p>
-        <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
-          <button 
-            onclick="openShopModal(${shop.id})" 
-            class="btn btn-outline-primary btn-sm">
-            <i class="fas fa-info-circle"></i> 詳細を見る
-          </button>
-          <button 
-            onclick="navigateToShop({latitude: '${shop.latitude}', longitude: '${shop.longitude}', name: '${shop.name}'})" 
-            class="btn btn-outline-success btn-sm">
-            <i class="fas fa-map-marker-alt"></i> ここに行く
-          </button>
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map: map,
+        title: shop.name
+      });
+
+      const html = `
+        <div style="max-width: 260px; padding: 8px;">
+          <h5>${shop.name}</h5>
+          <p style="color:#666;">⭐ ${shop.rating || "評価なし"}</p>
         </div>
-      </div>
-    `;
-    // マーカークリックでInfoWindow表示
-    marker.addListener("click", () => {
-      sharedInfoWindow.setContent(contentHtml);
-      sharedInfoWindow.open(map, marker);
+      `;
+
+      marker.addListener("click", () => {
+        sharedInfoWindow.setContent(html);
+        sharedInfoWindow.open(map, marker);
+      });
+
+      shopMarkers.push(marker);
+    });
+  }
+
+  // ⭐ Google Maps 初期化
+  window.pageInitMap = function() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 33.590188, lng: 130.420685 },
+      zoom: 14
     });
 
-    shopMarkers.push(marker);
-  });
-}
-// Google Maps API読み込み後に実行
-window.initMap = initMap;
+    placesService = new google.maps.places.PlacesService(map);
+    sharedInfoWindow = new google.maps.InfoWindow();
+
+    // ラーメン店ピン
+    placeShopMarkers();
+
+    // ページ入った瞬間に現在地へ移動
+    moveToCurrentLocationOnLoad();
+
+    // 検索ボタン
+    document.getElementById("searchBtn").addEventListener("click", searchLocation);
+
+    // 現在地ボタン
+    document.getElementById("getCurrentLocationBtn").addEventListener("click", async () => {
+      try {
+        const pos = await getCurrentLocation();
+        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        map.setCenter(loc);
+        map.setZoom(15);
+        markCurrentLocation(loc);
+      } catch {
+        alert("現在地を取得できませんでした");
+      }
+    });
+  };
+
+})();
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_API_KEY'] %>&libraries=places&callback=initMap" async defer></script>
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["MAPS_API_KEY"] %>&libraries=places&callback=initMap"
+        async defer></script>

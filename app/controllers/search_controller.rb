@@ -9,6 +9,8 @@ class SearchController < ApplicationController
   end
 
   def shop
-    @shops = Shop.all
+    @q = Shop.ransack(params[:q])
+    
+    @shops = @q.result(distinct: true)
   end
 end
