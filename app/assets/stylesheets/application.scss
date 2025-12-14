@@ -21,3 +21,10 @@
 html, body {
   background-color: #ffffff;
 }
+
+.pagination {
+  .page-item:first-child,
+  .page-item:last-child {
+    display: none;
+  }
+}

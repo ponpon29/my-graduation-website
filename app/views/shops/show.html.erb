@@ -1,101 +1,98 @@
-<div class="container">
+<div class="container my-4">
   <div class="text-center mb-4">
     <% if @shop.photo_url.present? %>
-      <%= image_tag @shop.photo_url, alt: t('defaults.shop_image_alt', name: @shop.name), class: "img-fluid rounded mb-3", style: "max-width: 60%; height: auto;" %>
+      <%= image_tag @shop.photo_url,
+          alt: t('defaults.shop_image_alt', name: @shop.name),
+          class: "img-fluid rounded mb-3",
+          style: "max-width: 60%;" %>
     <% end %>
-    <h3 class="mb-3"><%= @shop.name %></h3>
+
+    <h3 class="mb-2"><%= @shop.name %></h3>
     <p class="mb-2">⭐ <%= @shop.rating || t('defaults.no_rating') %></p>
 
-    <div class="mb-3">
-      <div class="d-flex justify-content-center gap-2 flex-wrap">
-        
-        <button onclick="navigateToShop({latitude: '<%= @shop.latitude %>', longitude: '<%= @shop.longitude %>', name: '<%= @shop.name %>'})" 
-                class="btn btn-outline-success">
-          <i class="fas fa-map-marker-alt me-2"></i><%= t('defaults.navigate') %>
-        </button>
+    <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
 
-        <div id="favorite-button-<%= @shop.id %>">           
-          <% if current_user.present? %>
-            <% if current_user.favorite?(@shop) %>
-              <%= link_to shop_favorite_path(@shop), 
-                          data: { turbo_method: :delete, turbo_confirm: t('defaults.favorite_confirm') }, 
-                          class: "btn btn-danger" do %>
-                <i class="fas fa-heart me-1"></i><%= t('defaults.remove_favorite') %>
-              <% end %>
-            <% else %>
-              <%= link_to shop_favorite_path(@shop),
-                          data: { turbo_method: :post }, 
-                          class: "btn btn-outline-danger" do %>
-                <i class="far fa-heart me-1"></i><%= t('defaults.add_favorite') %>
-              <% end %>
+      <button onclick="navigateToShop({
+        latitude: '<%= @shop.latitude %>',
+        longitude: '<%= @shop.longitude %>'
+        })" class="btn btn-outline-success">
+        <i class="fas fa-map-marker-alt me-1"></i>
+        <%= t('defaults.navigate') %>
+      </button>
+
+      <div id="favorite-button-<%= @shop.id %>">
+        <% if current_user %>
+          <% if current_user.favorite?(@shop) %>
+            <%= link_to shop_favorite_path(@shop),
+                data: { turbo_method: :delete, turbo_confirm: t('defaults.favorite_confirm') },
+                class: "btn btn-danger" do %>
+              <i class="fas fa-heart me-1"></i><%= t('defaults.remove_favorite') %>
             <% end %>
           <% else %>
-            <%= link_to login_path, class: "btn btn-outline-secondary" do %>
-              <i class="far fa-heart me-1"></i><%= t('defaults.favorite_login_required') %>
+            <%= link_to shop_favorite_path(@shop),
+                data: { turbo_method: :post },
+                class: "btn btn-outline-danger" do %>
+              <i class="far fa-heart me-1"></i><%= t('defaults.add_favorite') %>
             <% end %>
           <% end %>
-        </div>
-        
-        <% if current_user.present? %>
-          <%= link_to new_shop_review_path(@shop), class: "btn btn-outline-primary" do %>
-            <i class="fas fa-edit me-1"></i><%= t('defaults.post_review') %>
-          <% end %>
         <% else %>
-          <%= link_to login_path, class: "btn btn-outline-primary" do %>
-            <i class="fas fa-edit me-1"></i><%= t('defaults.review_login_required') %>
+          <%= link_to login_path, class: "btn btn-outline-secondary" do %>
+            <i class="far fa-heart me-1"></i><%= t('defaults.favorite_login_required') %>
           <% end %>
         <% end %>
-        
       </div>
+
+      <% if current_user %>
+        <%= link_to new_shop_review_path(@shop), class: "btn btn-outline-primary" do %>
+          <i class="fas fa-edit me-1"></i><%= t('defaults.post_review') %>
+        <% end %>
+      <% else %>
+        <%= link_to login_path, class: "btn btn-outline-primary" do %>
+          <i class="fas fa-edit me-1"></i><%= t('defaults.review_login_required') %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs justify-content-center mb-3">
+    <li class="nav-item">
+      <%= link_to t('defaults.shop_details'),
+          shop_path(@shop, tab: 'details'),
+          class: "nav-link #{'active' if params[:tab].blank? || params[:tab] == 'details'}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t('defaults.reviews'),
+          shop_path(@shop, tab: 'reviews'),
+          class: "nav-link #{'active' if params[:tab] == 'reviews'}" %>
+    </li>
+  </ul>
+
+  <div class="tab-content text-center">
+
+    <div class="tab-pane fade <%= 'show active' if params[:tab].blank? || params[:tab] == 'details' %>">
+      <%= render 'shop_details', shop: @shop %>
     </div>
 
-    <ul class="nav nav-tabs justify-content-center" id="shopTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-          <%= t('defaults.shop_details') %>
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-          <%= t('defaults.reviews') %>
-        </button>
-      </li>
-    </ul>
-
-    <div class="tab-content mt-3" id="shopTabsContent">
-      <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
-        <%= render 'shop_details', shop: @shop %>
-      </div>
-
-      <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-        <%= render 'reviews_tab' %>
-      </div>
-
-      <div class="d-flex justify-content-center gap-3">
-      <%= link_to t('defaults.back'), :back, class: "btn-ramen-hover" %>
-      </div>
+    <div class="tab-pane fade <%= 'show active' if params[:tab] == 'reviews' %>">
+      <%= render 'reviews_tab' %>
     </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <%= link_to t('defaults.back'), :back, class: "btn-ramen-hover" %>
   </div>
 </div>
 
 <script>
 function navigateToShop(shop) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      const userLat = position.coords.latitude;
-      const userLng = position.coords.longitude;
-      
-      const url = `https://www.google.com/maps/dir/${userLat},${userLng}/${shop.latitude},${shop.longitude}`;
-      window.open(url, '_blank');
-    }, function(error) {
-      alert('<%= t(".js_messages.location_error").html_safe %>');
-      const url = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
-      window.open(url, '_blank');
-    });
-  } else {
-    alert('<%= t(".js_messages.browser_not_supported").html_safe %>');
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const url = `https://www.google.com/maps/dir/${position.coords.latitude},${position.coords.longitude}/${shop.latitude},${shop.longitude}`;
+    window.open(url, '_blank');
+  }, function() {
     const url = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
     window.open(url, '_blank');
-  }
+  });
+}
 }
 </script>

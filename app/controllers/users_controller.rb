@@ -18,8 +18,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @reviews = @user.reviews.includes(:shop).order(created_at: :desc)
-    @favorite_shops = @user.favorite_shops.includes(:favorites)
+    @tab = params[:tab].presence || "reviews"
+  
+    @reviews = @user.reviews
+                    .includes(:shop)
+                    .order(created_at: :desc)
+                    .page(params[:reviews_page])
+                    .per(3)
+  
+    @favorite_shops = @user.favorite_shops
+                           .includes(:favorites)
+                           .order(created_at: :desc)
+                           .page(params[:favorites_page])
+                           .per(5)
   end
 
   def edit

@@ -7,11 +7,11 @@ class ReviewsController < ApplicationController
   
   def index
     if @shop.present?
-      @reviews = @shop.reviews.includes(:user).order(created_at: :desc)
+      @reviews = @shop.reviews.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
       @review = Review.new if logged_in?
       @average_rating = @shop.reviews.average(:rating)&.round(1)
     else
-      @reviews = Review.includes(:user, :shop).order(created_at: :desc)
+      @reviews = Review.includes(:user, :shop).order(created_at: :desc).page(params[:page]).per(5)
       @review = nil
       @average_rating = nil
     end

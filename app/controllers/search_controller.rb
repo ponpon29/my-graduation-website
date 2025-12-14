@@ -10,6 +10,6 @@ class SearchController < ApplicationController
 
   def shop
     @q = Shop.ransack(params[:q])
-    @shops = @q.result(distinct: true)
+    @shops = @q.result.order(created_at: :desc).page(params[:page]).per(9)
   end
 end
