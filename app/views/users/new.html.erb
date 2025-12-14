@@ -3,27 +3,60 @@
     <div class="row justify-content-center">
       <div class="col-md-10 col-lg-8 mx-auto">
         <h2 class="text-center mb-4" style="font-weight: bold;"><%= t('.title') %></h2>
+
         <%= form_with model: @user do |f| %>
           <div class="mb-3">
-            <%= f.label :last_name, class: "form-label fw-bold" %>
-            <%= f.text_field :last_name, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+            <%= f.label :username, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.text_field :username, 
+                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:username].any?}", 
+                style: "border-radius: 10px", 
+                placeholder: '3〜20文字で入力してください' %>
+            <% if @user.errors[:username].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:username).join(', ') %>
+              </div>
+            <% end %>
           </div>
-          <div class="mb-3">
-            <%= f.label :first_name, class: "form-label fw-bold", style: "color: #5D4037;" %>
-            <%= f.text_field :first_name, class: "form-control form-control-lg", style: "border-radius: 10px" %>
-          </div>
+          
           <div class="mb-3">
             <%= f.label :email, class: "form-label fw-bold", style: "color: #5D4037;" %>
-            <%= f.email_field :email, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+            <%= f.email_field :email, 
+                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:email].any?}", 
+                style: "border-radius: 10px", 
+                placeholder: 'example@example.com' %>
+            <% if @user.errors[:email].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:email).join(', ') %>
+              </div>
+            <% end %>
           </div>
+          
           <div class="mb-3">
             <%= f.label :password, class: "form-label fw-bold", style: "color: #5D4037;" %>
-            <%= f.password_field :password, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+            <%= f.password_field :password, 
+                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:password].any?}", 
+                style: "border-radius: 10px", 
+                placeholder: '英数字8字以上で入力してください' %>
+            <% if @user.errors[:password].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:password).join(', ') %>
+              </div>
+            <% end %>
           </div>
+          
           <div class="mb-3">
             <%= f.label :password_confirmation, class: "form-label fw-bold", style: "color: #5D4037;" %>
-            <%= f.password_field :password_confirmation, class: "form-control form-control-lg", style: "border-radius: 10px" %>
+            <%= f.password_field :password_confirmation, 
+                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:password_confirmation].any?}", 
+                style: "border-radius: 10px", 
+                placeholder: '同じパスワードを入力してください' %>
+            <% if @user.errors[:password_confirmation].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:password_confirmation).join(', ') %>
+              </div>
+            <% end %>
           </div>
+          
           <div class="text-center mb-3">
             <%= f.submit t('.create'), class: "btn-ramen-hover" %>
           </div>
@@ -34,6 +67,7 @@
             <p>または</p>
             <%= link_to auth_at_provider_path(provider: :google), 
                 class: "btn btn-google",
+                style: "color: #8B4513; font-weight: 500;",
                 data: { turbo: false } do %>
               <i class="fab fa-google"></i>
               <%= t('.google_login') %>

@@ -9,8 +9,8 @@
           <td><%= current_user.email %></td>
         </tr>
         <tr>
-          <th scope="row"><%= User.human_attribute_name(:full_name) %></th>
-          <td><%= @user.decorate.full_name %></td>
+        <th scope="row"><%= User.human_attribute_name(:username) %></th>
+        <td><%= @user.username %></td>
         </tr>
         <tr>
           <th scope="row"><%= User.human_attribute_name(:avatar) %></th>

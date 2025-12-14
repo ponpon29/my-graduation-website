@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      auto_login(@user)
       redirect_to root_path, success: t('users.create.success')
     else
       flash.now[:danger] = t('users.create.failure')
@@ -43,10 +44,10 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
   
   def profile_params
-    params.require(:user).permit(:first_name, :last_name, :email, :bio, :avatar)
+    params.require(:user).permit(:username, :email, :bio, :avatar)
   end
 end

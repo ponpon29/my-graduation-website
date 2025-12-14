@@ -14,14 +14,15 @@
           <div class="card mb-2 shadow-sm">
             <div class="card-body py-3">
               <div class="d-flex align-items-center mb-2">
-                <% if review.user.avatar_url_or_default %>
-                  <%= image_tag review.user.avatar_url_or_default, 
-                                class: 'rounded-circle me-2',
-                                size: '40x40',
-                                alt: t('defaults.user_avatar_alt', name: review.user.display_name) %>
+                <% if review.user.avatar_url %>
+                  <%= image_tag review.user.avatar_url, 
+                              class: 'rounded-circle me-2',
+                              size: '40x40',
+                              alt: "#{review.user.display_name}のアバター" %>
                 <% else %>
-                  <div class="rounded-circle bg-secondary me-2" 
-                        style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
+                  <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-2" 
+                      style="width: 40px; height: 40px;">
+                    <i class="fas fa-user text-white"></i>
                   </div>
                 <% end %>
                 
