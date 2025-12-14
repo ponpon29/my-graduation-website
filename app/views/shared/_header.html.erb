@@ -20,6 +20,7 @@
               <%= link_to t('.profile'), user_path(current_user), class: 'dropdown-item' %>
               <%= link_to t('.post'), reviews_path, class: 'dropdown-item' %>
               <%= link_to t('.location'), search_location_path, class: 'dropdown-item' %>
+              <%= link_to t('.shop'), search_shop_path, class: 'dropdown-item' %>
               <hr class="dropdown-divider">
               <%= link_to t('.logout'), logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %>
             </div>
@@ -35,26 +36,19 @@
 
 <script>
 function toggleRamenMenu() {
-  console.log('🍜 ラーメンメニューをトグル中...');
-  
   const menu = document.getElementById('ramenUserMenu');
   const btn = document.getElementById('ramenUserBtn');
   
   if (!menu || !btn) {
-    console.error('❌ メニューまたはボタンが見つかりません');
     return;
   }
   
   if (menu.style.display === 'none' || menu.style.display === '') {
-    // メニューを表示
     menu.style.display = 'block';
     btn.innerHTML = btn.innerHTML.replace('▼', '▲');
-    console.log('✅ メニューを表示しました');
   } else {
-    // メニューを非表示
     menu.style.display = 'none';
     btn.innerHTML = btn.innerHTML.replace('▲', '▼');
-    console.log('✅ メニューを非表示にしました');
   }
 }
 
@@ -69,10 +63,4 @@ document.addEventListener('click', function(event) {
     }
   }
 });
-
-document.addEventListener('turbo:load', function() {
-  console.log('🍜 ラーメンメニュー準備完了！');
-});
-
-console.log('🍜 ラーメンドロップダウンスクリプト読み込み完了');
 </script>

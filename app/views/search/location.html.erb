@@ -1,17 +1,32 @@
 <div class="container">
-  <div class="text-center mb-4">
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg-10 col-md-12">
+      <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center mb-2">
+        <div class="flex-grow-1" style="min-width: 250px; max-width: 500px;">
+          <input type="text" 
+                id="searchInput" 
+                class="form-control"
+                placeholder="地名/場所で検索">
+        </div>
 
-    <input type="text" id="searchInput" class="form-control d-inline-block w-50"
-           placeholder="地名/場所で検索">
-
-    <button id="searchBtn" class="btn-ramen-hover ms-2">検索</button>
-
-    <button id="getCurrentLocationBtn" class="btn-ramen-hover ms-3">
-      現在地を表示
-    </button>
+        <button id="searchBtn" class="btn-ramen-hover">
+          検索
+        </button>
+      </div>
+  
+      <div class="text-center">
+        <button id="getCurrentLocationBtn" class="btn-ramen-hover">
+          現在地を表示
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div id="map" class="flex-grow-1"></div>
+  <div class="row">
+    <div class="col-12">
+      <div id="map" class="flex-grow-1"></div>
+    </div>
+  </div>
 </div>
 
 <div class="modal fade" id="shopDetailModal" tabindex="-1" aria-labelledby="shopDetailModalLabel" aria-hidden="true">
