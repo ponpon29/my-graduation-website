@@ -3,7 +3,7 @@ class ShopsController < ApplicationController
   
   def show
     @shop = Shop.find(params[:id])
-    @reviews = @shop.reviews.includes(:user).order(created_at: :desc)
+    @reviews = @shop.reviews.includes(:user).order(created_at: :desc).page(params[:reviews_page]).per(2)
     @review = Review.new if logged_in?
 
     respond_to do |format|
