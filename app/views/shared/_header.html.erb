@@ -8,11 +8,12 @@
       <div class="d-flex">
         <% if logged_in? %>
           <div class="position-relative">
-            <button class="btn-ramen-hover" 
+            <button class="btn-ramen-hover d-flex align-items-center gap-2" 
                     type="button" 
                     id="ramenUserBtn"
                     onclick="toggleRamenMenu()">
-              <%= "#{current_user.last_name} #{current_user.first_name}" if current_user %> ▼
+              メニュー
+              <span class="dropdown-arrow">▼</span>
             </button>
             <div id="ramenUserMenu" 
                  class="dropdown-menu position-absolute" 
@@ -38,6 +39,7 @@
 function toggleRamenMenu() {
   const menu = document.getElementById('ramenUserMenu');
   const btn = document.getElementById('ramenUserBtn');
+  const arrow = btn.querySelector('.dropdown-arrow');
   
   if (!menu || !btn) {
     return;
@@ -45,21 +47,22 @@ function toggleRamenMenu() {
   
   if (menu.style.display === 'none' || menu.style.display === '') {
     menu.style.display = 'block';
-    btn.innerHTML = btn.innerHTML.replace('▼', '▲');
+    arrow.textContent = '▲';
   } else {
     menu.style.display = 'none';
-    btn.innerHTML = btn.innerHTML.replace('▲', '▼');
+    arrow.textContent = '▼';
   }
 }
 
 document.addEventListener('click', function(event) {
   const menu = document.getElementById('ramenUserMenu');
   const btn = document.getElementById('ramenUserBtn');
+  const arrow = btn?.querySelector('.dropdown-arrow');
   
   if (menu && btn) {
     if (!btn.contains(event.target) && !menu.contains(event.target)) {
       menu.style.display = 'none';
-      btn.innerHTML = btn.innerHTML.replace('▲', '▼');
+      if (arrow) arrow.textContent = '▼';
     }
   }
 });

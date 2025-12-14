@@ -1,16 +1,15 @@
 class User < ApplicationRecord
-  authenticates_with_sorcery!
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
 
   mount_uploader :avatar, AvatarUploader
   
-  validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password] }
+  validates :password, length: { minimum: 8 }, if: -> { new_record? || changes[:crypted_password] }
+  validates :password, format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/,message: 'は英字と数字の両方を含めてください' }, if: -> { new_record? || changes[:crypted_password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
-  validates :first_name, presence: true, length: { maximum: 255 }
-  validates :last_name, presence: true, length: { maximum: 255 }
+  validates :username, presence: true, length: { minimum: 3, maximum: 20 }
   validates :email, presence: true, uniqueness: true
   validates :reset_password_token, uniqueness: true, allow_nil: true
 
@@ -24,18 +23,10 @@ class User < ApplicationRecord
     avatar.present? ? avatar.url : nil
   end
 
-  def full_name
-    "#{last_name} #{first_name}"
-  end
-
   def display_name
-    full_name.present? ? full_name : email.split('@').first
+    username
   end
   
-  def avatar_url_or_default
-    avatar.present? ? avatar.url : '/assets/default_avatar.png'
-  end
-
   def favorite(shop)
     favorite_shops << shop unless favorite?(shop)
   end
