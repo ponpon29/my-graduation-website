@@ -1,0 +1,16 @@
+<footer style="background-color: #F5F0E8;">
+  <div class="container">
+    <div class="row py-4">
+      <div class="col-md-6">
+        <p class="mb-0 text-muted">
+          &copy; <%= Time.current.year %> とんこつマップ. All rights reserved.
+        </p>
+      </div>
+      
+      <div class="col-md-6 text-md-end">
+        <%= link_to "プライバシーポリシー", privacy_path, class: "footer-link me-3" %>
+        <%= link_to "利用規約", terms_path, class: "footer-link" %>
+      </div>
+    </div>
+  </div>
+</footer>
