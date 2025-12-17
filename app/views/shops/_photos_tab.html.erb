@@ -3,12 +3,12 @@
     <div class="row g-3">
       <% photos.each_with_index do |photo, index| %>
         <div class="col-md-4 col-sm-6">
-          <div class="photo-card">
+          <div class="card">
             <%= image_tag photo[:url], 
                 alt: "#{@shop.name}の写真#{index + 1}", 
-                class: "img-fluid rounded shadow-sm",
+                class: "card-img-top",
                 loading: "lazy",
-                style: "width: 100%; height: 250px; object-fit: cover;" %>
+                style: "height: 250px; object-fit: cover;" %>
           </div>
         </div>
       <% end %>
@@ -20,15 +20,3 @@
     </div>
   <% end %>
 </div>
-
-<style>
-.photo-card {
-  overflow: hidden;
-  border-radius: 8px;
-  transition: transform 0.2s;
-}
-
-.photo-card:hover {
-  transform: scale(1.05);
-}
-</style>
