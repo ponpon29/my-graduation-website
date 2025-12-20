@@ -1,10 +1,14 @@
 <div class="container my-4">
   <div class="text-center mb-4">
     <% if @shop.photo_url.present? %>
-      <%= image_tag @shop.photo_url,
-          alt: t('defaults.shop_image_alt', name: @shop.name),
-          class: "img-fluid rounded mb-3",
-          style: "max-width: 60%;" %>
+      <div class="d-flex justify-content-center mb-3">
+        <div style="max-width: 400px; width: 100%;">
+          <%= image_tag @shop.photo_url,
+              alt: t('defaults.shop_image_alt', name: @shop.name),
+              class: "rounded shadow-sm w-100",
+              style: "height: 300px; object-fit: cover;" %>
+        </div>
+      </div>
     <% end %>
 
     <h3 class="mb-2"><%= @shop.name %></h3>
@@ -12,13 +16,20 @@
 
     <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
 
-      <button onclick="navigateToShop({
-        latitude: '<%= @shop.latitude %>',
-        longitude: '<%= @shop.longitude %>'
-        })" class="btn btn-outline-success">
-        <i class="fas fa-map-marker-alt me-1"></i>
-        <%= t('defaults.navigate') %>
-      </button>
+      <% if @shop.latitude.present? && @shop.longitude.present? %>
+        <button onclick="navigateToShop({
+          latitude: '<%= @shop.latitude %>',
+          longitude: '<%= @shop.longitude %>'
+          })" class="btn btn-outline-success">
+          <i class="fas fa-map-marker-alt me-1"></i>
+          <%= t('defaults.navigate') %>
+        </button>
+      <% else %>
+        <button class="btn btn-outline-secondary" disabled>
+          <i class="fas fa-map-marker-alt me-1"></i>
+          <%= t('defaults.no_location') %>
+        </button>
+      <% end %>
 
       <div id="favorite-button-<%= @shop.id %>">
         <% if current_user %>

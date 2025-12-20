@@ -1,32 +1,59 @@
 <div class="container py-5">
   <div class="text-center mb-5">
-    <h2 class="fw-bold">ラーメン店を探す</h2>
-    <p class="text-muted">検索方法を選択してください</p>
+    <h2 class="fw-bold">🍜 ラーメン店を探す</h2>
+    <p class="text-muted">お好みの検索方法を選んでください</p>
   </div>
   
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="d-grid gap-3">
-        <%= link_to search_location_path, class: 'btn btn-lg btn-outline-primary p-4 text-start' do %>
-          <div class="d-flex align-items-center">
-            <i class="bi bi-geo-alt-fill me-3" style="font-size: 2rem;"></i>
-            <div>
-              <h5 class="mb-1">地図から検索</h5>
-              <small class="text-muted">エリアや地名を入力して近くのラーメン店を探す</small>
-            </div>
+  <div class="row justify-content-center g-4">
+    <div class="col-md-4">
+      <%= link_to search_location_path, class: 'text-decoration-none' do %>
+        <div class="card border-0 shadow h-100">
+          <div class="card-body text-center p-4">
+            <h4 class="card-title fw-bold mb-3">地図から検索</h4>
+            <p class="card-text text-muted mb-3">
+              現在地やエリア、駅・建物名から<br>
+              近くのラーメン店を探せます
+            </p>
+            <span class="badge border border-2 border-primary text-primary px-3 py-2 bg-white">
+              位置情報で簡単検索
+            </span>
           </div>
-        <% end %>
-        
-        <%= link_to search_shop_path, class: 'btn btn-lg btn-outline-success p-4 text-start' do %>
-          <div class="d-flex align-items-center">
-            <i class="bi bi-shop me-3" style="font-size: 2rem;"></i>
-            <div>
-              <h5 class="mb-1">店名から検索</h5>
-              <small class="text-muted">店名や住所を入力してお店を探す</small>
-            </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="col-md-4">
+      <%= link_to search_shop_path, class: 'text-decoration-none' do %>
+        <div class="card border-0 shadow h-100">
+          <div class="card-body text-center p-4">
+            <h4 class="card-title fw-bold mb-3">店名から検索</h4>
+            <p class="card-text text-muted mb-3">
+              気になっているお店の<br>
+              名前から探せます
+            </p>
+            <span class="badge border border-2 border-success text-success px-3 py-2 bg-white">
+              店名で直接検索
+            </span>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="col-md-4">
+      <%= link_to search_filter_path, class: 'text-decoration-none' do %>
+        <div class="card border-0 shadow h-100">
+          <div class="card-body text-center p-4">
+            <h4 class="card-title fw-bold mb-3">こだわり検索</h4>
+            <p class="card-text text-muted mb-3">
+              地域、ラーメンの濃さ、評価、<br>
+              深夜営業で絞り込み
+            </p>
+            <span class="badge border border-2 border-danger text-danger px-3 py-2 bg-white">
+              詳細条件で検索
+            </span>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

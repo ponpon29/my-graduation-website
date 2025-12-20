@@ -3,32 +3,21 @@
     <div class="row g-3">
       <% photos.each_with_index do |photo, index| %>
         <div class="col-md-4 col-sm-6">
-          <div class="photo-card">
+          <div class="card h-100 shadow-sm">
             <%= image_tag photo[:url], 
                 alt: "#{@shop.name}の写真#{index + 1}", 
-                class: "img-fluid rounded shadow-sm",
+                class: "card-img-top",
                 loading: "lazy",
-                style: "width: 100%; height: 250px; object-fit: cover;" %>
+                style: "height: 250px; object-fit: cover; cursor: pointer;",
+                data: { bs_toggle: "modal", bs_target: "#photoModal#{index}" } %>
           </div>
         </div>
       <% end %>
     </div>
   <% else %>
     <div class="text-center text-muted py-5">
-      <i class="fas fa-image fa-3x mb-3"></i>
-      <p>写真がまだ登録されていません</p>
+      <i class="fas fa-image fa-3x mb-3 d-block"></i>
+      <p class="mb-0">写真がまだ登録されていません</p>
     </div>
   <% end %>
 </div>
-
-<style>
-.photo-card {
-  overflow: hidden;
-  border-radius: 8px;
-  transition: transform 0.2s;
-}
-
-.photo-card:hover {
-  transform: scale(1.05);
-}
-</style>
