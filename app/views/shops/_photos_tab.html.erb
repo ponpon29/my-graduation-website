@@ -3,13 +3,12 @@
     <div class="row g-3">
       <% photos.each_with_index do |photo, index| %>
         <div class="col-md-4 col-sm-6">
-          <div class="card h-100 shadow-sm">
+          <div class="card">
             <%= image_tag photo[:url], 
                 alt: "#{@shop.name}の写真#{index + 1}", 
                 class: "card-img-top",
                 loading: "lazy",
-                style: "height: 250px; object-fit: cover; cursor: pointer;",
-                data: { bs_toggle: "modal", bs_target: "#photoModal#{index}" } %>
+                style: "height: 250px; object-fit: cover;" %>
           </div>
         </div>
       <% end %>

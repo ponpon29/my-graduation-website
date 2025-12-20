@@ -65,37 +65,44 @@
     </div>
   </div>
 
-  <ul class="nav nav-tabs justify-content-center mb-3">
-    <li class="nav-item">
-      <%= link_to t('defaults.shop_details'),
-          shop_path(@shop, tab: 'details'),
-          class: "nav-link #{'active' if params[:tab].blank? || params[:tab] == 'details'}" %>
-    </li>
-    <li class="nav-item">
-      <%= link_to '写真',
-          shop_path(@shop, tab: 'photos'),
-          class: "nav-link #{'active' if params[:tab] == 'photos'}" %>
-    </li>
-    <li class="nav-item">
-      <%= link_to t('defaults.reviews'),
-          shop_path(@shop, tab: 'reviews'),
-          class: "nav-link #{'active' if params[:tab] == 'reviews'}" %>
-    </li>
-  </ul>
+  <ul class="nav nav-tabs justify-content-center mb-3" role="tablist">
+  <li class="nav-item">
+    <button class="nav-link active" 
+            data-bs-toggle="tab" 
+            data-bs-target="#details-tab" 
+            type="button">
+      <%= t('defaults.shop_details') %>
+    </button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" 
+            data-bs-toggle="tab" 
+            data-bs-target="#photos-tab" 
+            type="button">
+      写真
+    </button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" 
+            data-bs-toggle="tab" 
+            data-bs-target="#reviews-tab" 
+            type="button">
+      <%= t('defaults.reviews') %>
+    </button>
+  </li>
+</ul>
 
-  <div class="tab-content">
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="details-tab">
+    <%= render 'shop_details', shop: @shop %>
+  </div>
 
-    <div class="tab-pane fade text-center <%= 'show active' if params[:tab].blank? || params[:tab] == 'details' %>">
-      <%= render 'shop_details', shop: @shop %>
-    </div>
+  <div class="tab-pane fade" id="photos-tab">
+    <%= render 'photos_tab', photos: @shop_photos %>
+  </div>
 
-    <div class="tab-pane fade <%= 'show active' if params[:tab] == 'photos' %>">
-      <%= render 'photos_tab', photos: @shop_photos %>
-    </div>
-
-    <div class="tab-pane fade <%= 'show active' if params[:tab] == 'reviews' %>">
-      <%= render 'reviews_tab' %>
-    </div>
+  <div class="tab-pane fade" id="reviews-tab">
+    <%= render 'reviews_tab' %>
   </div>
 </div>
 
