@@ -10,7 +10,7 @@
             <%= f.text_field :username, 
                 class: "form-control form-control-lg #{'is-invalid' if @user.errors[:username].any?}", 
                 style: "border-radius: 10px", 
-                placeholder: '3〜20文字で入力してください' %>
+                placeholder: '2〜20文字で入力してください' %>
             <% if @user.errors[:username].any? %>
               <div class="invalid-feedback d-block">
                 <%= @user.errors.full_messages_for(:username).join(', ') %>

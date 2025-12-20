@@ -22,6 +22,7 @@
               <%= link_to t('.post'), reviews_path, class: 'dropdown-item' %>
               <%= link_to t('.location'), search_location_path, class: 'dropdown-item' %>
               <%= link_to t('.shop'), search_shop_path, class: 'dropdown-item' %>
+              <%= link_to 'こだわり検索', search_filter_path, class: 'dropdown-item' %>
               <hr class="dropdown-divider">
               <%= link_to t('.logout'), logout_path, class: 'dropdown-item', data: { turbo_method: :delete } %>
             </div>

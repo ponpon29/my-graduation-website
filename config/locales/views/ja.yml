@@ -123,6 +123,9 @@ ja:
     address_label: 所在地
     phone_label: 電話番号
     hours_label: 営業時間
+    no_address: "住所情報がありません"
+    no_phone: "電話番号が登録されていません"
+    no_opening_hours: "営業時間情報がありません"
     
     delete_confirm: "本当に削除しますか？"
     favorite_confirm: "お気に入りから削除しますか？"

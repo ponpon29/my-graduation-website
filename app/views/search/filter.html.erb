@@ -1,0 +1,105 @@
+<div class="container py-5">
+  <h3 class="mb-4 text-center">🔍 こだわり検索</h3>
+  
+  <%= search_form_for @q, url: search_filter_path, method: :get do |f| %>
+    
+    <div class="mb-5">
+      <h5 class="mb-3">📍 地域</h5>
+
+      <%= f.select :address_cont, 
+          options_for_select([
+            ["すべて", ""],
+            ["東京", "東京"],
+            ["大阪", "大阪"],
+            ["福岡", "福岡"]
+          ], params.dig(:q, :address_cont)),
+          {},
+          class: "form-select form-select-lg w-50" %>
+    </div>
+
+    <div class="mb-5">
+      <h5 class="mb-3">🍜 ラーメン濃度</h5>
+    
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :density_eq, '', class: 'form-check-input', id: 'density_all', checked: true %>
+        <%= f.label :density_eq, '全て', class: 'form-check-label', for: 'density_all' %>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :density_eq, 'rich', class: 'form-check-input', id: 'density_rich' %>
+        <%= f.label :density_eq, 'こってり', class: 'form-check-label', for: 'density_rich' %>
+      </div>
+    
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :density_eq, 'normal', class: 'form-check-input', id: 'density_normal' %>
+        <%= f.label :density_eq, '普通', class: 'form-check-label', for: 'density_normal' %>
+      </div>
+    
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :density_eq, 'light', class: 'form-check-input', id: 'density_light' %>
+        <%= f.label :density_eq, 'あっさり', class: 'form-check-label', for: 'density_light' %>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <h5 class="mb-3">⭐ 評価</h5>
+
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating_gteq, '', class: 'form-check-input', id: 'rating_all', checked: true %>
+        <%= f.label :rating_gteq, '全て', class: 'form-check-label', for: 'rating_all' %>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating_gteq, '4.5', class: 'form-check-input', id: 'rating_45' %>
+        <%= f.label :rating_gteq, '4.5以上', class: 'form-check-label', for: 'rating_45' %>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating_gteq, '4.0', class: 'form-check-input', id: 'rating_40' %>
+        <%= f.label :rating_gteq, '4.0以上', class: 'form-check-label', for: 'rating_40' %>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating_gteq, '3.5', class: 'form-check-input', id: 'rating_35' %>
+        <%= f.label :rating_gteq, '3.5以上', class: 'form-check-label', for: 'rating_35' %>
+      </div>
+    </div>
+
+    <div class="mt-3 text-center">
+      <%= f.submit '検索', class: 'btn-ramen-hover' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+    <div class="col-12">
+      <% if @shops.present? %>
+
+        <div class="mb-3">
+          <h5 class="d-flex align-items-center">
+            <i class="fas fa-store me-2"></i>
+            検索結果:
+            <span class="badge bg-primary ms-2"><%= @shops.total_count %>件</span>
+          </h5>
+        </div>
+
+        <div class="row">
+          <% @shops.each do |shop| %>
+            <div class="col-lg-4 col-md-6 col-12 mb-4">
+              <%= render 'shop_card', shop: shop %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+          <%= paginate @shops, theme: 'bootstrap-5' %>
+        </div>
+
+      <% else %>
+        <div class="text-muted mb-3 text-center">
+          検索結果がありません
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

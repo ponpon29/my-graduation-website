@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'search/menu', to: 'search#menu'
   get 'search/location', to: 'search#location'
   get 'search/shop', to: 'search#shop'
+  get 'search/filter', to: 'search#filter'
   resources :users, only: %i[new create show edit update]
   resources :password_resets, only: %i[new create edit update]
 

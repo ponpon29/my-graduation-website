@@ -1,20 +1,28 @@
 <div class="mt-4 mx-auto text-center" style="max-width: 600px;">
   <div class="mb-3">
     <h5 class="mb-2"><%= t('defaults.address_icon') %> <%= t('defaults.address_label') %></h5>
-    <p class="mb-0"><%= shop.address %></p>
+    <p class="mb-0">
+      <%= shop.address.presence || t('defaults.no_address') %>
+    </p>
   </div>
 
   <div class="mb-3">
     <h5 class="mb-2"><%= t('defaults.phone_icon') %> <%= t('defaults.phone_label') %></h5>
-    <p class="mb-0"><%= shop.phone %></p>
+    <p class="mb-0">
+      <%= shop.phone.presence || t('defaults.no_phone') %>
+    </p>
   </div>
   
   <div class="mb-4">
     <h5 class="mb-2"><%= t('defaults.hours_icon') %> <%= t('defaults.hours_label') %></h5>
-    <ul class="list-unstyled">
-      <% shop.opening_hours.split(',').each do |hours| %>
-        <li class="mb-1"><%= hours.strip %></li>
-      <% end %>
-    </ul>
+    <% if shop.opening_hours.present? %>
+      <ul class="list-unstyled">
+        <% shop.opening_hours.split(',').each do |hours| %>
+          <li class="mb-1"><%= hours.strip %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="mb-0 text-muted"><%= t('defaults.no_opening_hours') %></p>
+    <% end %>
   </div>
 </div>

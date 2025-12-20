@@ -24,13 +24,13 @@ class UsersController < ApplicationController
                     .includes(:shop)
                     .order(created_at: :desc)
                     .page(params[:reviews_page])
-                    .per(3)
+                    .per(9)
   
     @favorite_shops = @user.favorite_shops
                            .includes(:favorites)
                            .order(created_at: :desc)
                            .page(params[:favorites_page])
-                           .per(5)
+                           .per(9)
   end
 
   def edit

@@ -3,7 +3,7 @@ class ShopsController < ApplicationController
   
   def show
     @shop = Shop.find(params[:id])
-    @reviews = @shop.reviews.includes(:user).order(created_at: :desc).page(params[:reviews_page]).per(2)
+    @reviews = @shop.reviews.includes(:user).order(created_at: :desc).page(params[:reviews_page]).per(9)
     @review = Review.new if logged_in?
 
     @shop_photos = Rails.cache.fetch("shop_#{@shop.id}_photos", expires_in: 1.hour) do
