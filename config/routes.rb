@@ -10,6 +10,15 @@ Rails.application.routes.draw do
     resource :favorite, only: [:create, :destroy]
     resources :reviews, only: [:new, :create, :destroy, :edit, :update]
   end
+
+  namespace :admin do
+    root "dashboards#index"
+    resource :dashboard, only: %i[index]
+    resources :shops, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+    get 'login' => 'user_sessions#new', :as => :login
+    post 'login' => "user_sessions#create"
+    delete 'logout' => 'user_sessions#destroy', :as => :logout
+  end
   
   get 'search/menu', to: 'search#menu'
   get 'search/location', to: 'search#location'

@@ -3,6 +3,8 @@ class User < ApplicationRecord
     config.authentications_class = Authentication
   end
 
+  enum :role, { general: 0, admin: 1 }
+
   mount_uploader :avatar, AvatarUploader
   
   validates :password, length: { minimum: 8 }, if: -> { new_record? || changes[:crypted_password] }
