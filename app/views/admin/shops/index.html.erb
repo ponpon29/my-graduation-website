@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <h3>店舗一覧</h3>
+  
+  <%= link_to '新規店舗作成', "#", class: 'btn btn-primary mb-3' %>
+  
+  <% if @shops.present? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>店舗名</th>
+          <th>住所</th>
+          <th>電話番号</th>
+          <th>作成日時</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shops.each do |shop| %>
+          <tr>
+            <td><%= shop.id %></td>
+            <td><%= shop.name %></td>
+            <td><%= shop.address %></td>
+            <td><%= shop.phone %></td>
+            <td><%= l shop.created_at, format: :short %></td>
+            <td>
+              <%= link_to '詳細', admin_shop_path(shop), class: 'btn btn-sm btn-info' %>
+              <%= link_to '削除', admin_shop_path(shop), 
+              data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか?' }, 
+              class: 'btn btn-sm btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-info">
+      店舗がありません
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,19 @@
+<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc;">
+  <h3>管理者ログイン</h3>
+  
+  <%= form_with url: admin_login_path, local: true do |f| %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :email, 'メールアドレス' %>
+      <%= f.email_field :email, style: 'width: 100%; padding: 8px;' %>
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password, style: 'width: 100%; padding: 8px;' %>
+    </div>
+    
+    <div>
+      <%= f.submit 'ログイン', style: 'padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer;' %>
+    </div>
+  <% end %>
+</div>

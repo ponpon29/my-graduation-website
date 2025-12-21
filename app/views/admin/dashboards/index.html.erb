@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h3>管理画面ダッシュボード</h3>
+  
+  <!-- 統計情報 -->
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">店舗数</h5>
+          <p class="card-text display-4"><%= @shops_count %></p>
+          <%= link_to '店舗一覧へ', admin_shops_path, class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">ユーザー数</h5>
+          <p class="card-text display-4"><%= @users_count %></p>
+          <%= link_to 'ユーザー一覧へ', "#", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">レビュー数</h5>
+          <p class="card-text display-4"><%= @reviews_count %></p>
+          <%= link_to 'レビュー一覧へ', "#", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
