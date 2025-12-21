@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  skip_before_action :require_login, only: [:menu, :location, :shop]
+  skip_before_action :require_login, only: [:menu, :location, :shop, :filter]
   
   def menu
   end

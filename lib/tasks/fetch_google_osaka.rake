@@ -1,171 +1,67 @@
 require Rails.root.join("lib/tasks/tonkotsu_helpers")
+require Rails.root.join("lib/tasks/fetch_google_places_helpers")
 
 namespace :fetch_google do
-  desc "大阪府全域 small-area × textsearch × 3keyword とんこつ収集（深夜営業つき）"
-  task osaka_full: :environment do
-    require "google_places"
-    google = GooglePlaces::Client.new(ENV["PLACES_API_KEY"])
-
-    areas = {
-      "大阪駅"       => [34.7025, 135.4959],
-      "梅田"         => [34.7033, 135.5001],
-      "北新地"       => [34.6998, 135.4980],
-      "中津"         => [34.7096, 135.4930],
-
-      "なんば"       => [34.6633, 135.5011],
-      "心斎橋"       => [34.6720, 135.5015],
-      "道頓堀"       => [34.6690, 135.5010],
-      "日本橋"       => [34.6660, 135.5080],
-
-      "天王寺"       => [34.6452, 135.5139],
-      "阿倍野"       => [34.6425, 135.5140],
-
-      "京橋"         => [34.6973, 135.5357],
-
-      "弁天町"       => [34.6695, 135.4632],
-      "西九条"       => [34.6880, 135.4600],
-
-      "江坂"         => [34.7575, 135.4962],
-      "豊中"         => [34.7833, 135.4701],
-      "吹田"         => [34.7599, 135.5153],
-      "茨木"         => [34.8160, 135.5626],
-      "高槻"         => [34.8510, 135.6171],
-
-      "堺東"         => [34.5731, 135.4832],
-      "中百舌鳥"     => [34.5533, 135.5089],
-      "三国ヶ丘"     => [34.5706, 135.4956],
-
-      "布施"         => [34.6637, 135.5612],
-      "八尾"         => [34.6187, 135.6008]
-    }
+  desc "大阪府全域 とんこつ店収集"
+  task osaka: :environment do
+    api_key = ENV["PLACES_API_KEY"]
 
     keywords = ["ラーメン", "豚骨", "とんこつ", "博多ラーメン"]
 
-    areas.each do |area, (lat, lng)|
-      puts "\n=== 🏙️ #{area} ==="
+    areas = {
+      "梅田" => [34.7025, 135.4959],
+      "大阪駅" => [34.7025, 135.4959],
+      "北新地" => [34.6990, 135.4982],
+      "天満" => [34.7059, 135.5122],
+      "京橋" => [34.6966, 135.5347],
+      "本町" => [34.6826, 135.4991],
+      "心斎橋" => [34.6739, 135.5016],
+      "難波" => [34.6687, 135.5010],
+      "日本橋" => [34.6663, 135.5060],
+      "天王寺" => [34.6472, 135.5133],
+      "阿倍野" => [34.6382, 135.5130],
+      "鶴橋" => [34.6625, 135.5320],
+      "西九条" => [34.6822, 135.4656],
+      "弁天町" => [34.6684, 135.4600],
+      "十三" => [34.7186, 135.4825],
 
-      keywords.each do |kw|
-        puts " → keyword: #{kw}"
+      "豊中中心" => [34.7816, 135.4690],
+      "吹田中心" => [34.7616, 135.5157],
+      "江坂" => [34.7614, 135.4960],
+      "茨木中心" => [34.8162, 135.5686],
+      "高槻中心" => [34.8461, 135.6173],
+      "箕面中心" => [34.8269, 135.4706],
 
-        begin
-          spots = google.spots(lat, lng, radius: 3000, language: "ja", keyword: kw)
-        rescue => e
-          puts " × nearby失敗: #{e.message}"
-          next
-        end
+      "東大阪中心" => [34.6794, 135.6008],
+      "布施" => [34.6696, 135.5650],
+      "枚方中心" => [34.8142, 135.6507],
+      "寝屋川中心" => [34.7666, 135.6278],
+      "守口中心" => [34.7373, 135.5647],
+      "門真中心" => [34.7383, 135.5835],
 
-        puts "   → nearby: #{spots.size}件"
+      "堺東" => [34.5733, 135.4828],
+      "堺中心" => [34.5733, 135.4828],
+      "中百舌鳥" => [34.5554, 135.5030],
+      "松原中心" => [34.5763, 135.5512],
+      "羽曳野中心" => [34.5577, 135.6050],
+      "富田林中心" => [34.5008, 135.6008],
+      "河内長野中心" => [34.4585, 135.5727],
 
-        spots.each do |hit|
-          begin
-            place = google.spot(hit.place_id, language: "ja")
-            next unless place&.name
+      "岸和田中心" => [34.4602, 135.3710],
+      "泉佐野中心" => [34.4063, 135.3276],
+      "貝塚中心" => [34.4520, 135.3583],
+      "泉大津中心" => [34.5044, 135.4100],
+      "和泉中心" => [34.4833, 135.4236],
+      "高石中心" => [34.5252, 135.4422],
 
-            text = [
-              place.name,
-              place.formatted_address,
-              place.reviews&.map(&:text)&.join(" ")
-            ].join(" ")
+      "能勢中心" => [34.9762, 135.4147]
+    }
 
-            next if non_tonkotsu?(text)
-            next unless tonkotsu?(text)
-            next if Shop.exists?(place_id: place.place_id)
-
-            photo_url = nil
-            if place.photos&.any?
-              ref = place.photos.first.photo_reference
-              photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxheight=600&photoreference=#{ref}&key=#{ENV['PLACES_API_KEY']}"
-            end
-
-            density_result = density(
-              name: place.name,
-              address: place.formatted_address,
-              reviews: place.reviews&.map(&:text) || []
-            )
-
-            late_flag = late_night?(place.opening_hours ? place.opening_hours["weekday_text"] : nil)
-
-            Shop.create!(
-              name: place.name,
-              address: place.formatted_address,
-              latitude: place.lat,
-              longitude: place.lng,
-              phone: place.formatted_phone_number,
-              place_id: place.place_id,
-              rating: place.rating,
-              opening_hours: place.opening_hours ? place.opening_hours["weekday_text"].join(", ") : nil,
-              photo_url: photo_url,
-              density: density_result,
-              late_night: late_flag
-            )
-
-            puts "     ✔ 保存: #{place.name} (深夜=#{late_flag}, density=#{density_result})"
-          rescue => e
-            puts "     ⚠ nearby保存エラー: #{e.message}"
-          end
-        end
-
-        begin
-          ts = google.spots_by_query("#{area} #{kw}")
-        rescue => e
-          puts " × textsearch失敗: #{e.message}"
-          next
-        end
-
-        puts "   → textsearch: #{ts.size}件"
-
-        ts.each do |hit|
-          begin
-            place = google.spot(hit.place_id, language: "ja")
-            next unless place&.name
-            next if Shop.exists?(place_id: place.place_id)
-
-            text = [
-              place.name,
-              place.formatted_address,
-              place.reviews&.map(&:text)&.join(" ")
-            ].join(" ")
-
-            next if non_tonkotsu?(text)
-            next unless tonkotsu?(text)
-
-            photo_url = nil
-            if place.photos&.any?
-              ref = place.photos.first.photo_reference
-              photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxheight=600&photoreference=#{ref}&key=#{ENV['PLACES_API_KEY']}"
-            end
-
-            density_result = density(
-              name: place.name,
-              address: place.formatted_address,
-              reviews: place.reviews&.map(&:text) || []
-            )
-
-            late_flag = late_night?(place.opening_hours ? place.opening_hours["weekday_text"] : nil)
-
-            Shop.create!(
-              name: place.name,
-              address: place.formatted_address,
-              latitude: place.lat,
-              longitude: place.lng,
-              phone: place.formatted_phone_number,
-              place_id: place.place_id,
-              rating: place.rating,
-              opening_hours: place.opening_hours ? place.opening_hours["weekday_text"].join(", ") : nil,
-              photo_url: photo_url,
-              density: density_result,
-              late_night: late_flag
-            )
-
-            puts "     ✔ TS保存: #{place.name} (深夜=#{late_flag})"
-          rescue => e
-            puts "     ⚠ TS保存エラー: #{e.message}"
-          end
-        end
-
-      end
-    end
-
-    puts "\n🎉 完了：大阪府 全域 small-area × textsearch"
+    FetchGooglePlacesHelpers.run!(
+      api_key: api_key,
+      areas: areas,
+      keywords: keywords,
+      title: "大阪"
+    )
   end
 end
