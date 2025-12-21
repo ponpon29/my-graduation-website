@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Myapp" %></title>
+    <title><%= content_for(:title) || "とんこつマップ" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <meta property="og:title" content="<%= content_for(:og_title) || 'とんこつマップ' %>" />
+    <meta property="og:description" content="<%= content_for(:og_description) || 'とんこつラーメン店を検索できるアプリです。お気に入りの一杯を見つけよう!' %>" />
+    <meta property="og:image" content="<%= content_for(:og_image) || image_url('top_image.jpg') %>" />
+    <meta property="og:url" content="<%= request.original_url %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="とんこつマップ" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= content_for(:og_title) || 'とんこつマップ' %>" />
+    <meta name="twitter:description" content="<%= content_for(:og_description) || 'とんこつラーメン店を検索できるアプリです。お気に入りの一杯を見つけよう!' %>" />
+    <meta name="twitter:image" content="<%= content_for(:og_image) || image_url('top_image.jpg') %>" />
 
     <%= yield :head %>
 
