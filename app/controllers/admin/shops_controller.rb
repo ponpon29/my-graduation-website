@@ -1,17 +1,13 @@
 class Admin::ShopsController < Admin::BaseController
-  before_action :set_shop, only: [:show, :edit, :update, :destroy]
+  before_action :set_shop, only: [:show, :edit, :destroy]
   
-  # 店舗一覧
   def index
     @shops = Shop.all.order(created_at: :desc)
   end
   
-  # 店舗詳細
   def show
-    # @shop は before_action で設定済み
   end
   
-  # 店舗新規作成
   def new
     @shop = Shop.new
   end
@@ -26,23 +22,15 @@ class Admin::ShopsController < Admin::BaseController
     end
   end
   
-  # 店舗編集
   def edit
-  end
-  
-  def update
-    if @shop.update(shop_params)
-      redirect_to admin_shop_path(@shop), success: '店舗を更新しました'
-    else
-      flash.now[:danger] = '店舗の更新に失敗しました'
-      render :edit, status: :unprocessable_entity
-    end
   end
   
   def destroy
     @shop.destroy!
     redirect_to admin_shops_path, success: '店舗を削除しました', status: :see_other
   end
+
+  private
   
   private
   
