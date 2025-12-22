@@ -5,7 +5,7 @@
       
       <div class="mb-3">
         <%= link_to '削除', admin_shop_path(@shop), 
-            data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか?' }, 
+            data: { turbo_method: :delete }, 
             class: 'btn btn-danger' %>
         <%= link_to '一覧に戻る', admin_shops_path, class: 'btn btn-secondary' %>
       </div>
