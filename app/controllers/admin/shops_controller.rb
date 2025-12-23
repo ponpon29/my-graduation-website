@@ -1,11 +1,8 @@
 class Admin::ShopsController < Admin::BaseController
-  before_action :set_shop, only: [:show, :edit, :destroy]
+  before_action :set_shop, only: [:edit, :destroy]
   
   def index
-    @shops = Shop.all.order(created_at: :desc)
-  end
-  
-  def show
+    @shops = Shop.page(params[:page])
   end
   
   def new
@@ -15,7 +12,7 @@ class Admin::ShopsController < Admin::BaseController
   def create
     @shop = Shop.new(shop_params)
     if @shop.save
-      redirect_to admin_shops_path, success: '店舗を作成しました'
+      redirect_to admin_shop_path(@shop), success: '店舗を作成しました'
     else
       flash.now[:danger] = '店舗の作成に失敗しました'
       render :new, status: :unprocessable_entity
@@ -27,10 +24,12 @@ class Admin::ShopsController < Admin::BaseController
   
   def destroy
     @shop.destroy!
-    redirect_to admin_shops_path, success: '店舗を削除しました', status: :see_other
+    
+    respond_to do |format|
+      format.html { redirect_to admin_shops_path, success: '店舗を削除しました', status: :see_other }
+      format.turbo_stream
+    end
   end
-
-  private
   
   private
   
@@ -39,6 +38,6 @@ class Admin::ShopsController < Admin::BaseController
   end
   
   def shop_params
-    params.require(:shop).permit(:name, :address, :phone_number, :description, :shop_image)
+    params.require(:shop).permit(:name, :address, :phone, :photo_url)
   end
 end
