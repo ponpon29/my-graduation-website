@@ -1,0 +1,7 @@
+<%= turbo_stream.remove "shop-#{@shop.id}" %>
+<%= turbo_stream.append "flash-messages" do %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    店舗を削除しました
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
