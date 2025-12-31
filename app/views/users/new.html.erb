@@ -5,18 +5,6 @@
         <h2 class="text-center mb-4" style="font-weight: bold;"><%= t('.title') %></h2>
 
         <%= form_with model: @user do |f| %>
-          <div class="mb-3">
-            <%= f.label :username, class: "form-label fw-bold", style: "color: #5D4037;" %>
-            <%= f.text_field :username, 
-                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:username].any?}", 
-                style: "border-radius: 10px", 
-                placeholder: '2〜20文字で入力してください' %>
-            <% if @user.errors[:username].any? %>
-              <div class="invalid-feedback d-block">
-                <%= @user.errors.full_messages_for(:username).join(', ') %>
-              </div>
-            <% end %>
-          </div>
           
           <div class="mb-3">
             <%= f.label :email, class: "form-label fw-bold", style: "color: #5D4037;" %>
@@ -27,6 +15,19 @@
             <% if @user.errors[:email].any? %>
               <div class="invalid-feedback d-block">
                 <%= @user.errors.full_messages_for(:email).join(', ') %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :username, class: "form-label fw-bold", style: "color: #5D4037;" %>
+            <%= f.text_field :username, 
+                class: "form-control form-control-lg #{'is-invalid' if @user.errors[:username].any?}", 
+                style: "border-radius: 10px", 
+                placeholder: '2〜20文字で入力してください' %>
+            <% if @user.errors[:username].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:username).join(', ') %>
               </div>
             <% end %>
           </div>
