@@ -6,14 +6,7 @@ class ShopsController < ApplicationController
     @reviews = @shop.reviews.includes(:user).order(created_at: :desc).page(params[:reviews_page]).per(9)
     @review = Review.new if logged_in?
 
-    @shop_photos = Rails.cache.fetch("shop_#{@shop.id}_photos", expires_in: 1.hour) do
-      if @shop.place_id.present?
-        service = GooglePlacesService.new
-        service.fetch_photos(@shop.place_id, max_photos: 9)
-      else
-        []
-      end
-    end
+    @shop_photos = @shop.photos
 
     respond_to do |format|
       format.html do

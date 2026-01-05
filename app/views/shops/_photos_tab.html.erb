@@ -2,15 +2,17 @@
   <% if photos.present? %>
     <div class="row g-3">
       <% photos.each_with_index do |photo, index| %>
-        <div class="col-md-4 col-sm-6">
-          <div class="card">
-            <%= image_tag photo[:url], 
-                alt: "#{@shop.name}の写真#{index + 1}", 
-                class: "card-img-top",
-                loading: "lazy",
-                style: "height: 250px; object-fit: cover;" %>
+        <% if photo["url"].present? %>
+          <div class="col-md-4 col-sm-6">
+            <div class="card">
+              <%= image_tag photo["url"], 
+                  alt: "#{@shop.name}の写真#{index + 1}", 
+                  class: "card-img-top",
+                  loading: "lazy",
+                  style: "height: 250px; object-fit: cover;" %>
+            </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% else %>
